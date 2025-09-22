@@ -1,0 +1,236 @@
+[
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o CMakeFiles/mafia.dir/src/logger.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/logger.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/logger.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/CMakeFiles/mafia.dir/src/logger.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o CMakeFiles/mafia.dir/src/roles.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/roles.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/roles.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/CMakeFiles/mafia.dir/src/roles.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o CMakeFiles/mafia.dir/src/human.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/human.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/human.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/CMakeFiles/mafia.dir/src/human.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o CMakeFiles/mafia.dir/src/host.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/host.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/host.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/CMakeFiles/mafia.dir/src/host.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o CMakeFiles/mafia.dir/src/main.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/main.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/src/main.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/CMakeFiles/mafia.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilder.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/contrib/graphbuilder.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/contrib/graphbuilder.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilder.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilderadapter.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/contrib/graphbuilderadapter.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/contrib/graphbuilderadapter.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilderadapter.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/binary.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/binary.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/binary.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/binary.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/convert.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/convert.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/convert.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/convert.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/depthguard.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/depthguard.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/depthguard.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/depthguard.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/directives.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/directives.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/directives.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/directives.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emit.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emit.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emit.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emit.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitfromevents.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitfromevents.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitfromevents.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitfromevents.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitter.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitter.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitter.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitter.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterstate.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitterstate.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitterstate.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterstate.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterutils.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitterutils.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/emitterutils.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterutils.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exceptions.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/exceptions.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/exceptions.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exceptions.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exp.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/exp.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/exp.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exp.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/memory.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/memory.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/memory.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/memory.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/node.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/node.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node_data.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/node_data.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/node_data.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node_data.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodebuilder.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/nodebuilder.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/nodebuilder.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodebuilder.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodeevents.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/nodeevents.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/nodeevents.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodeevents.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/null.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/null.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/null.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/null.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/ostream_wrapper.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/ostream_wrapper.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/ostream_wrapper.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/ostream_wrapper.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parse.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/parse.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/parse.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parse.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parser.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/parser.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/parser.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parser.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/regex_yaml.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/regex_yaml.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/regex_yaml.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/regex_yaml.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanner.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scanner.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scanner.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanner.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanscalar.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scanscalar.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scanscalar.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanscalar.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantag.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scantag.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scantag.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantag.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantoken.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scantoken.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/scantoken.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantoken.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/simplekey.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/simplekey.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/simplekey.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/simplekey.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/singledocparser.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/singledocparser.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/singledocparser.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/singledocparser.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/stream.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/stream.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/stream.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/stream.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src -g -std=gnu++20 -arch arm64 -fPIC -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/tag.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/tag.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/src/tag.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/tag.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-sandbox.dir/sandbox.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/sandbox.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/sandbox.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-sandbox.dir/sandbox.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-parse.dir/parse.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/parse.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/parse.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-parse.dir/parse.cpp.o"
+},
+{
+  "directory": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build",
+  "command": "/usr/bin/clang++ -DYAML_CPP_STATIC_DEFINE -I/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/include -g -std=gnu++20 -arch arm64 -O2 -Wall -Wextra -Wpedantic -o _deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-read.dir/read.cpp.o -c /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/read.cpp",
+  "file": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-src/util/read.cpp",
+  "output": "/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/build/_deps/yaml-cpp-build/util/CMakeFiles/yaml-cpp-read.dir/read.cpp.o"
+}
+]

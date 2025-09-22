@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/nikiteslyuk/Documents/\u0412\u0423\u0417/\u0423\u0447\u0435\u0431\u0430/7_\u0421\u0435\u043c\u0435\u0441\u0442\u0440/\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0443\u043c/mafia/build/cmake_install.cmake",
+		"/Users/nikiteslyuk/Documents/\u0412\u0423\u0417/\u0423\u0447\u0435\u0431\u0430/7_\u0421\u0435\u043c\u0435\u0441\u0442\u0440/\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0443\u043c/mafia/build/_deps/yaml-cpp-build/cmake_install.cmake",
+		"/Users/nikiteslyuk/Documents/\u0412\u0423\u0417/\u0423\u0447\u0435\u0431\u0430/7_\u0421\u0435\u043c\u0435\u0441\u0442\u0440/\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0443\u043c/mafia/build/_deps/yaml-cpp-build/util/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
