@@ -43,7 +43,7 @@ Host::Alignment Host::alignment_of(int id) const {
         return Alignment::Unknown;
     }
     const std::string &role = it->second;
-    if (role == "Мафия" || role == "Дон") {
+    if (role == "Мафия" || role == "Ниндзя") {
         return Alignment::Mafia;
     }
     if (role == "Маньяк") {
@@ -95,8 +95,6 @@ void Host::announce(const std::string &msg) {
 }
 
 void Host::resolve_day() {
-    log.log_day_votes(gs.round, gs.day_votes);
-
     std::map<int, int> votes;
     for (auto &[from, to] : gs.day_votes) {
         if (to != -1) votes[to]++;
@@ -110,35 +108,53 @@ void Host::resolve_day() {
     auto best = std::max_element(votes.begin(), votes.end(),
                                  [](auto &a, auto &b) { return a.second < b.second; });
     int victim = best->first;
-    std::cout << "\n[Сводка голосования дня]" << std::endl;
+    announce("\n=== Обсуждение — Раунд " + std::to_string(gs.round) + " ===");
     for (auto &[from, to] : gs.day_votes) {
-        std::cout << from << " → " << to << std::endl;
+        std::string line;
+        if (to == -1) {
+            line = "Игрок " + std::to_string(from) + " воздержался от голосования.";
+        } else {
+            std::string accusation_role = "мафией";
+            auto it_role = gs.original_roles.find(to);
+            if (it_role != gs.original_roles.end() && it_role->second == "Маньяк") {
+                accusation_role = "маньяком";
+            }
+            line = "Игрок " + std::to_string(from) + " считает, что игрок " + std::to_string(to) + " является " + accusation_role + ".";
+        }
+        announce(line);
+        log.log_day_statement(gs.round, line);
     }
     log.log_day_result(gs.round, victim);
-    announce("Днём игрок " + std::to_string(victim) + " был изгнан.");
+    announce("\n--- Итоги дня (Раунд " + std::to_string(gs.round) + ") ---");
+    announce("Голосованием изгнан игрок " + std::to_string(victim) + ".");
     gs.alive.erase(victim);
     gs.day_votes.clear();
 }
 
 void Host::resolve_night() {
+    announce("\n=== Ночь — Раунд " + std::to_string(gs.round) + " ===");
     int mafia_target = -1;
     int maniac_target = -1;
     int doctor_target = -1;
+    bool doctor_saved_someone = false;
+    bool doctor_failure_logged = false;
     int commissioner_inspect_target = -1;
     int commissioner_shot_target = -1;
     int commissioner_id = -1;
     Commissioner *commissioner_ptr = nullptr;
+    std::vector<int> doctor_ids;
+    bool human_is_doctor = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->role() == "Доктор";
 
     for (auto &[id, p] : gs.alive) {
         const std::string role = p->role();
-        if (role == "Мафия") {
+        if (role == "Мафия" || role == "Ниндзя") {
             if (mafia_target == -1) {
                 mafia_target = p->get_target();
             }
         } else if (role == "Маньяк") {
             maniac_target = p->get_target();
         } else if (role == "Доктор") {
-            doctor_target = p->get_target();
+            doctor_ids.push_back(id);
         } else if (role == "Комиссар") {
             commissioner_inspect_target = p->night_action_target();
             commissioner_shot_target = p->night_shot_target();
@@ -147,24 +163,44 @@ void Host::resolve_night() {
         }
     }
 
-    bool doctor_saved_from_mafia = mafia_target != -1 && doctor_target == mafia_target;
-    bool doctor_saved_from_maniac = maniac_target != -1 && doctor_target == maniac_target;
-    bool doctor_saved_from_commissioner = commissioner_shot_target != -1 && doctor_target == commissioner_shot_target;
-    bool doctor_saved_anyone = doctor_target != -1 && (doctor_saved_from_mafia || doctor_saved_from_maniac || doctor_saved_from_commissioner);
+    if (!doctor_ids.empty()) {
+        std::map<int, int> heal_votes;
+        for (int did : doctor_ids) {
+            auto it = gs.alive.find(did);
+            if (it == gs.alive.end()) continue;
+            int tgt = it->second->get_target();
+            if (tgt == -1) continue;
+            ++heal_votes[tgt];
+        }
 
-    if (mafia_target == -1) {
-        log.log_night_action(gs.round, "Мафия завершила ночь без действия.");
-    } else {
-        log.log_night_action(gs.round, doctor_saved_from_mafia ? "Мафия выполнила ход, цель спасена." : "Мафия выполнила ход.");
+        if (!heal_votes.empty()) {
+            int best_count = 0;
+            std::vector<int> candidates;
+            candidates.reserve(heal_votes.size());
+            for (auto &[pid, count] : heal_votes) {
+                if (count > best_count) {
+                    best_count = count;
+                    candidates.clear();
+                    candidates.push_back(pid);
+                } else if (count == best_count) {
+                    candidates.push_back(pid);
+                }
+            }
+
+            if (!candidates.empty()) {
+                if (candidates.size() == 1) {
+                    doctor_target = candidates.front();
+                } else {
+                    std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
+                    doctor_target = candidates[dist(gs.rng)];
+                }
+            }
+        }
+
+        // deliberately no logging of конкретной цели врача, чтобы не спойлерить ночной ход
     }
 
-    if (doctor_target == -1) {
-        log.log_night_action(gs.round, "Доктор выполнил ход.");
-    } else if (doctor_saved_anyone) {
-        log.log_night_action(gs.round, "Доктор спас игрока.");
-    } else {
-        log.log_night_action(gs.round, "Доктор вылечил не того.");
-    }
+    bool doctor_saved_from_commissioner = (doctor_target != -1 && doctor_target == commissioner_shot_target);
 
     if (commissioner_ptr) {
         if (commissioner_shot_target != -1) {
@@ -204,7 +240,14 @@ void Host::resolve_night() {
     auto kill = [&](int vid, const std::string &by) {
         if (vid == -1) return;
         if (vid == doctor_target) {
-            announce("Доктор спас игрока " + std::to_string(vid) + " от " + by);
+            if (!doctor_saved_someone) {
+                log.log_night_action(gs.round, "Доктор спас игрока " + std::to_string(vid) + '.');
+                announce("Доктор спас игрока " + std::to_string(vid) + " от " + by);
+                if (human_is_doctor) {
+                    std::cout << "[Доктор] Вам удалось спасти игрока " << vid << ".\n";
+                }
+                doctor_saved_someone = true;
+            }
             return;
         }
         if (gs.alive.count(vid)) {
@@ -217,6 +260,31 @@ void Host::resolve_night() {
     kill(mafia_target, "мафии");
     kill(maniac_target, "маньяка");
     kill(commissioner_shot_target, "комиссара");
+
+    if (!doctor_ids.empty() && doctor_target != -1 && !doctor_saved_someone) {
+        log.log_night_action(gs.round, "Доктор вылечил не того.");
+        announce("Доктор вылечил не того.");
+        doctor_failure_logged = true;
+        if (human_is_doctor) {
+            std::cout << "[Доктор] Ваш пациент (" << doctor_target << ") не подвергался нападению.\n";
+        }
+    }
+
+    bool doctor_dead = false;
+    for (int did : doctor_ids) {
+        if (!gs.alive.count(did)) {
+            doctor_dead = true;
+            break;
+        }
+    }
+    if (doctor_dead && !doctor_failure_logged && !doctor_saved_someone) {
+        log.log_night_action(gs.round, "Доктор вылечил не того.");
+        announce("Доктор вылечил не того.");
+        doctor_failure_logged = true;
+        if (human_is_doctor) {
+            std::cout << "[Доктор] Вы погибли, не успев спасти цель.\n";
+        }
+    }
 }
 
 
@@ -227,14 +295,17 @@ bool Host::game_over() {
 
     if (m == 0 && man == 0) {
         announce("Победили мирные жители!");
+        log.log_final("Победа: мирные жители");
         return true;
     }
     if (m >= civ) {
         announce("Победила мафия!");
+        log.log_final("Победа: мафия");
         return true;
     }
     if (man == 1 && civ == 1 && m == 0) {
         announce("Маньяк победил!");
+        log.log_final("Победа: маньяк");
         return true;
     }
     return false;
@@ -242,8 +313,7 @@ bool Host::game_over() {
 
 Task<> Host::run() {
     for (gs.round = 1;; ++gs.round) {
-        announce("Раунд " + std::to_string(gs.round));
-        std::vector<int> ids;
+                std::vector<int> ids;
         ids.reserve(gs.alive.size());
         for (auto &[id, _] : gs.alive) ids.push_back(id);
         log.start_day(gs.round, ids);
@@ -254,8 +324,6 @@ Task<> Host::run() {
             std::vector<int> ids_local;
             ids_local.reserve(gs.alive.size());
             for (auto &[id, _] : gs.alive) ids_local.push_back(id);
-
-            day_discussion(ids_local);
 
             for (int id : ids_local) {
                 auto it = gs.alive.find(id);
@@ -375,6 +443,7 @@ Task<> Host::run() {
                 if (it == gs.alive.end()) continue;
                 auto &p = it->second;
                 if (alignment_of(id) == Alignment::Mafia) continue;
+                if (gs.human_enabled && id == gs.human_id) continue;
                 co_await p->act(gs, *this, id, log, gs.round, /*mafiaPhase=*/false);
             }
         }
