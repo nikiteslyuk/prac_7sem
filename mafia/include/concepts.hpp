@@ -1,9 +1,13 @@
 #pragma once
 #include <string>
+#include <concepts>
 #include <map>
+#include <type_traits>
 #include "smart_ptr.hpp"
 #include "task.hpp"
 #include "logger.hpp"
+#include "game_state.hpp"
+#include "host.hpp"
 
 struct PlayerBase; // forward
 
@@ -11,13 +15,13 @@ struct PlayerBase; // forward
 template<typename T>
 concept PlayerRoleConcept = requires(
         T obj,
-        std::map<int, smart_ptr<PlayerBase>>& alive,
+        GameState &gs,
+        Host &host,
         int id,
         Logger& log,
         int round) {
-    // методы act/vote возвращают Task<>
-    { obj.act(alive, id, log, round, true) } -> std::same_as<Task<>>;
-    { obj.vote(alive, id, log, round) } -> std::same_as<Task<>>;
+    { obj.act(gs, host, id, log, round, true) } -> std::same_as<Task<>>;
+    { obj.vote(gs, host, id, log, round) } -> std::same_as<Task<>>;
     // role() возвращает строку
     { obj.role() } -> std::convertible_to<std::string>;
     // методы для установки/получения цели

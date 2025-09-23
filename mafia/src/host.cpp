@@ -43,7 +43,7 @@ Host::Alignment Host::alignment_of(int id) const {
         return Alignment::Unknown;
     }
     const std::string &role = it->second;
-    if (role == "Мафия" || role == "Ниндзя") {
+    if (role == "Мафия" || role == "Ниндзя" || role == "Бык") {
         return Alignment::Mafia;
     }
     if (role == "Маньяк") {
@@ -133,17 +133,24 @@ void Host::resolve_day() {
 
 void Host::resolve_night() {
     announce("\n=== Ночь — Раунд " + std::to_string(gs.round) + " ===");
+
     int mafia_target = -1;
     int maniac_target = -1;
+    int maniac_id = -1;
     int doctor_target = -1;
-    bool doctor_saved_someone = false;
-    bool doctor_failure_logged = false;
+    std::vector<int> doctor_ids;
+
     int commissioner_inspect_target = -1;
     int commissioner_shot_target = -1;
-    int commissioner_id = -1;
     Commissioner *commissioner_ptr = nullptr;
-    std::vector<int> doctor_ids;
+
     bool human_is_doctor = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->role() == "Доктор";
+    bool human_is_commissioner = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->role() == "Комиссар";
+
+    bool doctor_saved_someone = false;
+    int doctor_saved_player = -1;
+    std::string doctor_saved_by;
+    bool doctor_died = false;
 
     for (auto &[id, p] : gs.alive) {
         const std::string role = p->role();
@@ -153,13 +160,13 @@ void Host::resolve_night() {
             }
         } else if (role == "Маньяк") {
             maniac_target = p->get_target();
+            maniac_id = id;
         } else if (role == "Доктор") {
             doctor_ids.push_back(id);
         } else if (role == "Комиссар") {
             commissioner_inspect_target = p->night_action_target();
             commissioner_shot_target = p->night_shot_target();
             commissioner_ptr = dynamic_cast<Commissioner *>(p.get());
-            commissioner_id = id;
         }
     }
 
@@ -197,62 +204,156 @@ void Host::resolve_night() {
             }
         }
 
-        // deliberately no logging of конкретной цели врача, чтобы не спойлерить ночной ход
+        std::string attempt = "Доктор, попытка лечения: ";
+        if (doctor_target == -1) {
+            attempt += "без цели.";
+        } else {
+            attempt += "игрок " + std::to_string(doctor_target) + ".";
+        }
+        log.log_night_action(gs.round, attempt);
     }
 
-    bool doctor_saved_from_commissioner = (doctor_target != -1 && doctor_target == commissioner_shot_target);
+    if (gs.mafia_final_target == -1) {
+        gs.mafia_final_target = mafia_target;
+    }
+    if (gs.mafia_last_votes.empty() && mafia_target != -1) {
+        gs.mafia_last_votes.push_back(mafia_target);
+    }
+
+    auto join_ids = [](const std::vector<int> &values) {
+        std::string out;
+        for (size_t i = 0; i < values.size(); ++i) {
+            if (i) out += ", ";
+            out += std::to_string(values[i]);
+        }
+        return out;
+    };
+
+    std::vector<int> mafia_valid_votes;
+    mafia_valid_votes.reserve(gs.mafia_last_votes.size());
+    for (int v : gs.mafia_last_votes) if (v != -1) mafia_valid_votes.push_back(v);
+
+    if (!mafia_valid_votes.empty()) {
+        std::vector<int> unique_votes = mafia_valid_votes;
+        std::sort(unique_votes.begin(), unique_votes.end());
+        unique_votes.erase(std::unique(unique_votes.begin(), unique_votes.end()), unique_votes.end());
+        std::string msg;
+        if (unique_votes.size() == 1) {
+            msg = "Мафия выбрала игрока " + std::to_string(unique_votes.front()) + ".";
+            if (gs.mafia_final_target != -1 && gs.mafia_final_target != unique_votes.front()) {
+                msg += " Итоговая цель: " + std::to_string(gs.mafia_final_target) + ".";
+            }
+        } else {
+            msg = "Мафия выбрала игроков " + join_ids(unique_votes) + ".";
+            if (gs.mafia_final_target != -1) {
+                msg += gs.mafia_choice_random ? " Итоговая цель выбрана случайно: " : " Итоговая цель: ";
+                msg += std::to_string(gs.mafia_final_target) + ".";
+            }
+        }
+        log.log_night_action(gs.round, msg);
+    } else {
+        log.log_night_action(gs.round, "Мафия не выбрала цель.");
+    }
+
+    if (maniac_id != -1) {
+        if (maniac_target == -1) {
+            log.log_night_action(gs.round, "Маньяк пропустил ход.");
+        } else {
+            log.log_night_action(gs.round, "Маньяк выбрал игрока " + std::to_string(maniac_target) + ".");
+        }
+    }
 
     if (commissioner_ptr) {
         if (commissioner_shot_target != -1) {
-            log.log_night_action(gs.round, "Комиссар выполнил выстрел.");
-            if (gs.human_enabled && gs.human_id == commissioner_id) {
-                std::cout << "[Комиссар] Выстрел по цели " << commissioner_shot_target
-                          << (doctor_saved_from_commissioner ? " — цель спасена." : " — цель поражена.")
-                          << '\n';
+            log.log_night_action(gs.round, "Комиссар, выстрел: цель " + std::to_string(commissioner_shot_target) + ".");
+            if (human_is_commissioner) {
+                std::cout << "[Комиссар] Выстрел по цели " << commissioner_shot_target << " — ожидаем результат." << '\n';
             }
-        } else if (commissioner_inspect_target == -1) {
-            log.log_night_action(gs.round, "Комиссар выполнил ход.");
-            if (gs.human_enabled && gs.human_id == commissioner_id) {
-                std::cout << "[Комиссар] Проверка не состоялась.\n";
-            }
-        } else {
+        } else if (commissioner_inspect_target != -1) {
             commissioner_ptr->apply_inspection_result(*this);
             auto align = alignment_of(commissioner_inspect_target);
+            const std::string inspected_role = role_name_for(commissioner_inspect_target);
             if (align == Alignment::Unknown) {
-                log.log_night_action(gs.round, "Комиссар выполнил ход.");
-                if (gs.human_enabled && gs.human_id == commissioner_id) {
-                    std::cout << "[Комиссар] Не удалось получить результат проверки." << '\n';
+                log.log_night_action(gs.round, "Комиссар, результат проверки: неизвестно-" + std::to_string(commissioner_inspect_target) + ".");
+                if (human_is_commissioner) {
+                    std::cout << "[Комиссар] Проверка не дала результата." << '\n';
                 }
             } else {
                 Alignment report = (align == Alignment::Maniac) ? Alignment::Civilian : align;
-                log.log_night_action(gs.round, "Комиссар выполнил проверку.");
-                if (gs.human_enabled && gs.human_id == commissioner_id) {
-                    std::cout << "[Комиссар] Результат проверки: "
-                              << (report == Alignment::Mafia ? "мафия" : "мирный")
-                              << " (" << commissioner_inspect_target << ")" << '\n';
+                if (inspected_role == "Ниндзя") {
+                    report = Alignment::Civilian;
                 }
+                std::string kind = (report == Alignment::Mafia) ? "мафия" : "мирный";
+                std::string line = "Комиссар, результат проверки: " + kind + "-" + std::to_string(commissioner_inspect_target) + ".";
+                log.log_night_action(gs.round, line);
+                if (human_is_commissioner) {
+                    std::cout << "[Комиссар] Результат проверки: " << kind << " (" << commissioner_inspect_target << ")" << '\n';
+                }
+            }
+        } else {
+            log.log_night_action(gs.round, "Комиссар действий не предпринял.");
+            if (human_is_commissioner) {
+                std::cout << "[Комиссар] Действий этой ночью не было." << '\n';
             }
         }
     } else {
-        log.log_night_action(gs.round, "Комиссар выполнил ход.");
+        log.log_night_action(gs.round, "Комиссар отсутствует." );
+    }
+
+    std::vector<std::string> witness_reports;
+    auto register_witness_attempt = [&](const std::string &attacker_desc, int target) {
+        if (target == -1) return;
+        if (gs.witness_target == -1 || gs.witness_target != target) return;
+        std::string msg = "Свидетель видел, что " + attacker_desc + " пытался убить игрока " + std::to_string(target) + ".";
+        if (std::find(witness_reports.begin(), witness_reports.end(), msg) == witness_reports.end()) {
+            witness_reports.emplace_back(std::move(msg));
+        }
+    };
+
+    register_witness_attempt("мафия", mafia_target);
+    if (maniac_target != -1) {
+        std::string attacker = "маньяк";
+        if (maniac_id != -1) attacker += " (игрок " + std::to_string(maniac_id) + ")";
+        register_witness_attempt(attacker, maniac_target);
+    }
+    if (commissioner_shot_target != -1) {
+        register_witness_attempt("комиссар", commissioner_shot_target);
     }
 
     auto kill = [&](int vid, const std::string &by) {
         if (vid == -1) return;
-        if (vid == doctor_target) {
+        if (vid == doctor_target && doctor_target != -1) {
             if (!doctor_saved_someone) {
-                log.log_night_action(gs.round, "Доктор спас игрока " + std::to_string(vid) + '.');
+                doctor_saved_someone = true;
+                doctor_saved_player = vid;
+                doctor_saved_by = by;
                 announce("Доктор спас игрока " + std::to_string(vid) + " от " + by);
                 if (human_is_doctor) {
-                    std::cout << "[Доктор] Вам удалось спасти игрока " << vid << ".\n";
+                    std::cout << "[Доктор] Вам удалось спасти игрока " << vid << "." << '\n';
                 }
-                doctor_saved_someone = true;
             }
             return;
+        }
+        if (by == "маньяка") {
+            auto it_orig = gs.original_roles.find(vid);
+            if (it_orig != gs.original_roles.end() && it_orig->second == "Бык") {
+                std::string msg = "Маньяк не смог убить быка (игрок " + std::to_string(vid) + ").";
+                log.log_night_action(gs.round, msg);
+                announce(msg);
+                std::cout << "Маньяк не убивал в эту ночь." << '\n';
+                if (maniac_id == gs.human_id && gs.human_enabled && gs.alive.count(gs.human_id)) {
+                    std::cout << "[Маньяк] Цель " << vid << " оказалась неуязвимой." << '\n';
+                }
+                return;
+            }
         }
         if (gs.alive.count(vid)) {
             announce("Игрок " + std::to_string(vid) + " погиб от " + by);
             log.log_night_action(gs.round, "Игрок " + std::to_string(vid) + " погиб от " + by + '.');
+            auto it_orig = gs.original_roles.find(vid);
+            if (it_orig != gs.original_roles.end() && it_orig->second == "Доктор") {
+                doctor_died = true;
+            }
             gs.alive.erase(vid);
         }
     };
@@ -261,29 +362,38 @@ void Host::resolve_night() {
     kill(maniac_target, "маньяка");
     kill(commissioner_shot_target, "комиссара");
 
-    if (!doctor_ids.empty() && doctor_target != -1 && !doctor_saved_someone) {
-        log.log_night_action(gs.round, "Доктор вылечил не того.");
-        announce("Доктор вылечил не того.");
-        doctor_failure_logged = true;
-        if (human_is_doctor) {
-            std::cout << "[Доктор] Ваш пациент (" << doctor_target << ") не подвергался нападению.\n";
+    if (!doctor_ids.empty()) {
+        std::string result = "Доктор, результат лечения: ";
+        if (doctor_target == -1) {
+            result += "пропуск.";
+        } else if (doctor_saved_someone) {
+            result += "успех — спас игрока " + std::to_string(doctor_saved_player) + " от " + doctor_saved_by + ".";
+        } else if (doctor_died) {
+            result += "доктор погиб, лечение не сработало (цель " + std::to_string(doctor_target) + ").";
+        } else {
+            result += "промах — цель " + std::to_string(doctor_target) + " не подвергалась нападению.";
+        }
+        log.log_night_action(gs.round, result);
+    }
+
+    if (commissioner_ptr && commissioner_shot_target != -1) {
+        bool target_alive = gs.alive.count(commissioner_shot_target) != 0;
+        std::string outcome = "Комиссар, выстрел: цель " + std::to_string(commissioner_shot_target) + " — " + (target_alive ? "цель выжила." : "цель устранена.");
+        log.log_night_action(gs.round, outcome);
+        if (human_is_commissioner) {
+            std::cout << "[Комиссар] Выстрел по цели " << commissioner_shot_target << (target_alive ? " — цель спасена." : " — цель поражена.") << '\n';
         }
     }
 
-    bool doctor_dead = false;
-    for (int did : doctor_ids) {
-        if (!gs.alive.count(did)) {
-            doctor_dead = true;
-            break;
+    if (!witness_reports.empty()) {
+        std::string combined;
+        for (size_t i = 0; i < witness_reports.size(); ++i) {
+            if (i) combined += '\n';
+            combined += witness_reports[i];
+            log.log_night_action(gs.round, witness_reports[i]);
+            announce(witness_reports[i]);
         }
-    }
-    if (doctor_dead && !doctor_failure_logged && !doctor_saved_someone) {
-        log.log_night_action(gs.round, "Доктор вылечил не того.");
-        announce("Доктор вылечил не того.");
-        doctor_failure_logged = true;
-        if (human_is_doctor) {
-            std::cout << "[Доктор] Вы погибли, не успев спасти цель.\n";
-        }
+        gs.witness_message = combined;
     }
 }
 
@@ -343,6 +453,12 @@ Task<> Host::run() {
         log.start_night(gs.round);
         // === Ночь: действия ролей ===
         gs.night_choices.clear();
+        gs.witness_target = -1;
+        gs.witness_observer = -1;
+        gs.witness_message.reset();
+        gs.mafia_last_votes.clear();
+        gs.mafia_final_target = -1;
+        gs.mafia_choice_random = false;
         {
             std::vector<int> ids_local;
             ids_local.reserve(gs.alive.size());
@@ -401,6 +517,7 @@ Task<> Host::run() {
                         if (p->get_target() != -1) chosen.push_back(p->get_target());
                     }
                     if (!chosen.empty()) {
+                        gs.mafia_last_votes = chosen;
                         std::map<int, int> cnt;
                         int bestc = 0;
                         for (int t : chosen) {
@@ -429,10 +546,31 @@ Task<> Host::run() {
                             if (human_is_mafia && unique_max > 1) {
                                 announce("Голоса мафии разделились. Случайно выбрана цель " + std::to_string(final_target));
                             }
+                            gs.mafia_choice_random = (unique_max > 1);
                         }
 
                         if (final_target != -1) {
                             for (int id : mafia_ids) gs.alive.at(id)->set_target(final_target);
+                            gs.mafia_final_target = final_target;
+                        }
+                    }
+                }
+                if (gs.mafia_last_votes.empty()) {
+                    for (int id : mafia_ids) {
+                        auto it = gs.alive.find(id);
+                        if (it == gs.alive.end()) continue;
+                        int t = it->second->get_target();
+                        if (t != -1) gs.mafia_last_votes.push_back(t);
+                    }
+                }
+                if (gs.mafia_final_target == -1 && !mafia_ids.empty()) {
+                    for (int id : mafia_ids) {
+                        auto it = gs.alive.find(id);
+                        if (it == gs.alive.end()) continue;
+                        int t = it->second->get_target();
+                        if (t != -1) {
+                            gs.mafia_final_target = t;
+                            break;
                         }
                     }
                 }

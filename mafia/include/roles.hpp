@@ -5,6 +5,7 @@
 #include <set>
 #include <vector>
 #include <random>
+#include <utility>
 
 #include "smart_ptr.hpp"
 #include "task.hpp"
@@ -44,6 +45,12 @@ protected:
     friend struct GameState;
 };
 
+// Утилита для создания роли с проверкой концепта
+template<PlayerRoleConcept Role, class... Args>
+smart_ptr<PlayerBase> make_role(Args&&... args) {
+    return smart_ptr<PlayerBase>(new Role(std::forward<Args>(args)...));
+}
+
 // утилита для случайного выбора
 template<class T>
 T choose_random(const std::vector<T> &v) {
@@ -78,6 +85,29 @@ struct Civilian : PlayerBase {
 
 // ===== Мафия =====
 struct Mafia : PlayerBase {
+    int target = -1;
+
+    Task<> act(GameState &state,
+               Host &host,
+               int id,
+               Logger &log,
+               int round,
+               bool mafiaPhase) override;
+
+    Task<> vote(GameState &state,
+                Host &host,
+                int id,
+                Logger &log,
+                int round) override;
+
+    std::string role() const override;
+
+    void set_target(int t) override;
+    int get_target() const override;
+};
+
+// ===== Бык =====
+struct Bull : PlayerBase {
     int target = -1;
 
     Task<> act(GameState &state,
@@ -160,6 +190,53 @@ struct Doctor : PlayerBase {
 
 // ===== Маньяк =====
 struct Maniac : PlayerBase {
+    int target = -1;
+
+    Task<> act(GameState &state,
+               Host &host,
+               int id,
+               Logger &log,
+               int round,
+               bool mafiaPhase) override;
+
+    Task<> vote(GameState &state,
+                Host &host,
+                int id,
+                Logger &log,
+                int round) override;
+
+    std::string role() const override;
+
+    void set_target(int t) override;
+    int get_target() const override;
+};
+
+// ===== Свидетель =====
+struct Witness : PlayerBase {
+    int observed = -1;
+    int vote_choice = -1;
+
+    Task<> act(GameState &state,
+               Host &host,
+               int id,
+               Logger &log,
+               int round,
+               bool mafiaPhase) override;
+
+    Task<> vote(GameState &state,
+                Host &host,
+                int id,
+                Logger &log,
+                int round) override;
+
+    std::string role() const override;
+
+    void set_target(int t) override;
+    int get_target() const override;
+};
+
+// ===== Ниндзя =====
+struct Ninja : PlayerBase {
     int target = -1;
 
     Task<> act(GameState &state,

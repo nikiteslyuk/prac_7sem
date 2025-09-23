@@ -1052,7 +1052,6 @@ CMakeFiles/mafia.dir/src/main.cpp.o: \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/concepts.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/game_state.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/host.hpp \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/human.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/future \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/thread \

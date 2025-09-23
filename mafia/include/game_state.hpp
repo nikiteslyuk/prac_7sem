@@ -30,6 +30,11 @@ struct GameState {
     std::map<int, int> day_votes;      // кто за кого проголосовал (день)
     std::map<int, int> night_choices;  // ночные действия игрока -> цель
 
+    // отладочные сведения о ночных действиях
+    std::vector<int> mafia_last_votes;
+    int mafia_final_target = -1;
+    bool mafia_choice_random = false;
+
     void set_vote(int from, int to) {
         day_votes[from] = to; // to == -1 => воздержался
     }
@@ -64,7 +69,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && (it->second == "Мафия" || it->second == "Дон")) {
+            if (it != original_roles.end() && (it->second == "Мафия" || it->second == "Ниндзя")) {
                 ++c;
             }
         }
@@ -86,10 +91,15 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && it->second != "Мафия" && it->second != "Дон") {
+            if (it != original_roles.end() && it->second != "Мафия" && it->second != "Маньяк") {
                 ++c;
             }
         }
         return c;
     }
+
+    int witness_target = -1;
+    int witness_observer = -1;
+    std::optional<std::string> witness_message;
+    int last_killer = -1;
 };

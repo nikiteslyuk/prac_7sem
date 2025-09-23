@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include "signals.hpp"
 #include "logger.hpp"
 #include "game_state.hpp"
 #include "task.hpp"
@@ -18,9 +17,6 @@ struct Host {
 
     GameState &gs;
     Logger &log;
-    PhaseSignal day_sig{};
-    PhaseSignal night_sig{};
-
     Host(GameState &g, Logger &l);
 
     // Главный цикл (корутина): День -> Ночь -> ...

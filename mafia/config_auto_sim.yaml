@@ -1,0 +1,18 @@
+players: 12
+k: 4
+human: false
+announce: closed
+
+roles:
+  - Mafia
+  - Mafia
+  - Mafia
+  - Commissioner
+  - Doctor
+  - Witness
+  - Bull
+  - Ninja
+  - Maniac
+  - Civilian
+  - Civilian
+  - Civilian

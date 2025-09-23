@@ -855,7 +855,6 @@ CMakeFiles/mafia.dir/src/host.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче�
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/filesystem \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/format \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/forward_list \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/fstream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/functional \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/future \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/initializer_list \
@@ -1060,7 +1059,6 @@ CMakeFiles/mafia.dir/src/host.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче�
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/human.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/logger.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/roles.hpp \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/smart_ptr.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/task.hpp
 
@@ -1918,7 +1916,6 @@ CMakeFiles/mafia.dir/src/human.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/filesystem \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/format \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/forward_list \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/fstream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/functional \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/future \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/initializer_list \
@@ -1943,6 +1940,7 @@ CMakeFiles/mafia.dir/src/human.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/queue \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/random \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/ratio \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/set \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/sstream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/stack \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/stddef.h \
@@ -2116,11 +2114,12 @@ CMakeFiles/mafia.dir/src/human.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdarg.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdint.h \
+  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/concepts.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/game_state.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/host.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/human.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/logger.hpp \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp \
+  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/roles.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/smart_ptr.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/task.hpp
 
@@ -3934,7 +3933,6 @@ CMakeFiles/mafia.dir/src/main.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче�
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/filesystem \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/format \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/forward_list \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/fstream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/functional \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/future \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/initializer_list \
@@ -4172,7 +4170,6 @@ CMakeFiles/mafia.dir/src/main.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче�
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/human.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/logger.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/roles.hpp \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/smart_ptr.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/task.hpp
 
@@ -4993,7 +4990,6 @@ CMakeFiles/mafia.dir/src/roles.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/execution \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/filesystem \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/format \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/fstream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/functional \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/initializer_list \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/iomanip \
@@ -5193,7 +5189,6 @@ CMakeFiles/mafia.dir/src/roles.cpp.o: /Users/nikiteslyuk/Documents/ВУЗ/Уче
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/host.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/logger.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/roles.hpp \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/smart_ptr.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/task.hpp
 
@@ -6846,8 +6841,6 @@ _deps/yaml-cpp-src/include/yaml-cpp/exceptions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/bit_floor.h:
 
-/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/signals.hpp:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/unreachable.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/ranges_stable_sort.h:
@@ -7136,9 +7129,9 @@ _deps/yaml-cpp-src/include/yaml-cpp/exceptions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/ranges_count.h:
 
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_va_list.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/fstream:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_va_list.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/enable_view.h:
 

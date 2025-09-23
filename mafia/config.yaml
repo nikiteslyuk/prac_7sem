@@ -1,12 +1,13 @@
-players: 10
-k: 4
-human: true
-debug: true
-debug_role: Commissioner
+players: 12
+# debug: true
+# debug_role: maniac
 announce: open
 
-# Новый формат: количества ролей
-mafia: 2
+mafia: 1
+bull: 1
 commissioner: 1
 doctor: 1
-civilians: 6
+maniac: 1
+civilians: 5
+witness: 1
+ninja: 1

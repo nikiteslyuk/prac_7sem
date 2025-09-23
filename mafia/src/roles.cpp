@@ -3,8 +3,17 @@
 
 #include <algorithm>
 
+static_assert(PlayerRoleConcept<Civilian>);
+static_assert(PlayerRoleConcept<Mafia>);
+static_assert(PlayerRoleConcept<Bull>);
+static_assert(PlayerRoleConcept<Commissioner>);
+static_assert(PlayerRoleConcept<Doctor>);
+static_assert(PlayerRoleConcept<Maniac>);
+static_assert(PlayerRoleConcept<Witness>);
+static_assert(PlayerRoleConcept<Ninja>);
+
 Task<> Civilian::act(GameState &, Host &, int, Logger &, int, bool) {
-    co_return; // мирный ночью спит
+    co_return;
 }
 
 Task<> Civilian::vote(GameState &state, Host &, int id, Logger &, int) {
@@ -38,6 +47,26 @@ std::string Mafia::role() const { return "Мафия"; }
 void Mafia::set_target(int t) { target = t; }
 
 int Mafia::get_target() const { return target; }
+
+Task<> Bull::act(GameState &, Host &host, int id, Logger &, int, bool mafiaPhase) {
+    if (mafiaPhase) {
+        auto ids = host.mafia_targets_for(id);
+        target = ids.empty() ? -1 : choose_random(ids);
+    }
+    co_return;
+}
+
+Task<> Bull::vote(GameState &state, Host &, int id, Logger &, int) {
+    auto ids = state.ids_excluding(id);
+    target = ids.empty() ? -1 : choose_random(ids);
+    co_return;
+}
+
+std::string Bull::role() const { return "Бык"; }
+
+void Bull::set_target(int t) { target = t; }
+
+int Bull::get_target() const { return target; }
 
 Task<> Commissioner::act(GameState &state, Host &host, int id, Logger &, int, bool mafiaPhase) {
     if (!mafiaPhase) {
@@ -122,6 +151,10 @@ void Commissioner::apply_inspection_result(Host &host) {
     }
 
     auto align = host.alignment_of(inspected);
+    const std::string inspected_role = host.role_name_for(inspected);
+    if (inspected_role == "Ниндзя") {
+        align = Host::Alignment::Civilian;
+    }
     if (align == Host::Alignment::Mafia) {
         kill_target = inspected;
         known_civ.erase(inspected);
@@ -153,11 +186,19 @@ Task<> Doctor::vote(GameState &state, Host &, int id, Logger &, int) {
 
 std::string Doctor::role() const { return "Доктор"; }
 
-void Doctor::set_target(int t) { target = t; }
+void Doctor::set_target(int t) {
+    target = t;
+    if (t != -1) {
+        prev = t;
+    }
+}
 
 int Doctor::get_target() const { return target; }
 
-Task<> Maniac::act(GameState &state, Host &, int id, Logger &, int, bool) {
+Task<> Maniac::act(GameState &state, Host &, int id, Logger &, int, bool mafiaPhase) {
+    if (!mafiaPhase) {
+        co_return;
+    }
     auto ids = state.ids_excluding(id);
     target = ids.empty() ? -1 : choose_random(ids);
     co_return;
@@ -174,3 +215,59 @@ std::string Maniac::role() const { return "Маньяк"; }
 void Maniac::set_target(int t) { target = t; }
 
 int Maniac::get_target() const { return target; }
+Task<> Witness::act(GameState &state, Host &host, int id, Logger &, int, bool mafiaPhase) {
+    (void)host;
+    if (!mafiaPhase) {
+        co_return;
+    }
+    auto ids = state.ids_excluding(id);
+    if (!ids.empty()) {
+        observed = choose_random(ids);
+        state.witness_target = observed;
+        state.witness_observer = id;
+    } else {
+        observed = -1;
+        state.witness_target = -1;
+        state.witness_observer = -1;
+    }
+    co_return;
+}
+
+Task<> Witness::vote(GameState &state, Host &host, int id, Logger &, int) {
+    (void)host;
+    auto ids = state.ids_excluding(id);
+    vote_choice = ids.empty() ? -1 : choose_random(ids);
+    co_return;
+}
+
+std::string Witness::role() const { return "Свидетель"; }
+
+void Witness::set_target(int t) { observed = t; }
+
+int Witness::get_target() const { return vote_choice; }
+
+Task<> Ninja::act(GameState &state, Host &host, int id, Logger &, int, bool mafiaPhase) {
+    if (!mafiaPhase) {
+        co_return;
+    }
+    std::vector<int> ids;
+    for (auto &[pid, _] : state.alive) {
+        if (pid == id) continue;
+        if (host.alignment_of(pid) != Host::Alignment::Mafia) ids.push_back(pid);
+    }
+    target = ids.empty() ? -1 : choose_random(ids);
+    co_return;
+}
+
+Task<> Ninja::vote(GameState &state, Host &host, int id, Logger &, int) {
+    (void)host;
+    auto ids = state.ids_excluding(id);
+    target = ids.empty() ? -1 : choose_random(ids);
+    co_return;
+}
+
+std::string Ninja::role() const { return "Ниндзя"; }
+
+void Ninja::set_target(int t) { target = t; }
+
+int Ninja::get_target() const { return target; }

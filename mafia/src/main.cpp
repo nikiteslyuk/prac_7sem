@@ -13,21 +13,29 @@
 #include "human.hpp"
 #include "game_state.hpp"
 
-// Разрешённые роли в конфиге: Mafia, Commissioner, Doctor, Civilian
+// Разрешённые роли в конфиге: Mafia, Bull, Commissioner, Doctor, Civilian, Witness, Ninja, Maniac
 static smart_ptr<PlayerBase> make_role3(const std::string& role_name) {
-    if (role_name == "Mafia")        return smart_ptr<PlayerBase>(new Mafia());
-    if (role_name == "Commissioner") return smart_ptr<PlayerBase>(new Commissioner());
-    if (role_name == "Doctor")       return smart_ptr<PlayerBase>(new Doctor());
-    if (role_name == "Civilian")     return smart_ptr<PlayerBase>(new Civilian());
+    if (role_name == "Mafia")        return make_role<Mafia>();
+    if (role_name == "Bull")         return make_role<Bull>();
+    if (role_name == "Commissioner") return make_role<Commissioner>();
+    if (role_name == "Doctor")       return make_role<Doctor>();
+    if (role_name == "Civilian")     return make_role<Civilian>();
+    if (role_name == "Witness")      return make_role<Witness>();
+    if (role_name == "Ninja")        return make_role<Ninja>();
+    if (role_name == "Maniac")       return make_role<Maniac>();
     return smart_ptr<PlayerBase>(); // неизвестная/запрещённая роль
 }
 
-int main() {
+int main(int argc, char **argv) {
     YAML::Node cfg;
+    std::string config_path = "config.yaml";
+    if (argc > 1 && argv[1] && *argv[1]) {
+        config_path = argv[1];
+    }
     try {
-        cfg = YAML::LoadFile("config.yaml");
-    } catch (...) {
-        std::cerr << "Не найден config.yaml — создайте файл.\n";
+        cfg = YAML::LoadFile(config_path);
+    } catch (const std::exception &e) {
+        std::cerr << "Не удалось загрузить конфиг '" << config_path << "': " << e.what() << "\n";
         return 1;
     }
 
@@ -71,8 +79,12 @@ int main() {
         int comm_count  = cfg["commissioner"] ? std::max(0, cfg["commissioner"].as<int>()) : 0;
         int doc_count   = cfg["doctor"] ? std::max(0, cfg["doctor"].as<int>()) : 0;
         int civ_count   = cfg["civilians"] ? std::max(0, cfg["civilians"].as<int>()) : 0;
+        int witness_count = cfg["witness"] ? std::max(0, cfg["witness"].as<int>()) : 0;
+        int bull_count    = cfg["bull"] ? std::max(0, cfg["bull"].as<int>()) : 0;
+        int ninja_count   = cfg["ninja"] ? std::max(0, cfg["ninja"].as<int>()) : 0;
+        int maniac_count  = cfg["maniac"] ? std::max(0, cfg["maniac"].as<int>()) : 0;
 
-        int sum_counts = mafia_count + comm_count + doc_count + civ_count;
+        int sum_counts = mafia_count + comm_count + doc_count + civ_count + witness_count + bull_count + ninja_count + maniac_count;
         if (sum_counts > 0) {
             // если players не задан, возьмём сумму
             if (!cfg["players"]) N = sum_counts;
@@ -83,6 +95,10 @@ int main() {
         for (int i = 0; i < mafia_count; ++i)        roles_pool.emplace_back(new Mafia());
         for (int i = 0; i < comm_count;  ++i)        roles_pool.emplace_back(new Commissioner());
         for (int i = 0; i < doc_count;   ++i)        roles_pool.emplace_back(new Doctor());
+        for (int i = 0; i < witness_count; ++i)      roles_pool.emplace_back(new Witness());
+        for (int i = 0; i < bull_count; ++i)         roles_pool.emplace_back(new Bull());
+        for (int i = 0; i < ninja_count; ++i)        roles_pool.emplace_back(new Ninja());
+        for (int i = 0; i < maniac_count; ++i)       roles_pool.emplace_back(new Maniac());
         for (int i = 0; i < civ_count;   ++i)        roles_pool.emplace_back(new Civilian());
         while ((int)roles_pool.size() < N) roles_pool.emplace_back(new Civilian());
 
@@ -135,15 +151,31 @@ int main() {
         } else if (lowered == "civilian" || lowered == "civ" || lowered == "мирный") {
             canonical = "Civilian";
             desired_role_ru = "Мирный";
+        } else if (lowered == "witness" || lowered == "w" || lowered == "свидетель") {
+            canonical = "Witness";
+            desired_role_ru = "Свидетель";
+        } else if (lowered == "bull" || lowered == "бык") {
+            canonical = "Bull";
+            desired_role_ru = "Бык";
+        } else if (lowered == "ninja" || lowered == "нинзя" || lowered == "ниндзя") {
+            canonical = "Ninja";
+            desired_role_ru = "Ниндзя";
+        } else if (lowered == "maniac" || lowered == "maniak" || lowered == "маньяк") {
+            canonical = "Maniac";
+            desired_role_ru = "Маньяк";
         }
 
         if (!canonical.empty()) {
             auto matches_role = [&](PlayerBase *player) {
                 if (!player) return false;
-                if (desired_role_ru == "Мафия")   return dynamic_cast<Mafia *>(player) != nullptr;
-                if (desired_role_ru == "Комиссар") return dynamic_cast<Commissioner *>(player) != nullptr;
-                if (desired_role_ru == "Доктор")   return dynamic_cast<Doctor *>(player) != nullptr;
-                if (desired_role_ru == "Мирный")   return dynamic_cast<Civilian *>(player) != nullptr;
+                if (desired_role_ru == "Мафия")     return dynamic_cast<Mafia *>(player) != nullptr;
+                if (desired_role_ru == "Комиссар")  return dynamic_cast<Commissioner *>(player) != nullptr;
+                if (desired_role_ru == "Доктор")     return dynamic_cast<Doctor *>(player) != nullptr;
+                if (desired_role_ru == "Мирный")     return dynamic_cast<Civilian *>(player) != nullptr;
+                if (desired_role_ru == "Свидетель")  return dynamic_cast<Witness *>(player) != nullptr;
+                if (desired_role_ru == "Бык")        return dynamic_cast<Bull *>(player) != nullptr;
+                if (desired_role_ru == "Ниндзя")     return dynamic_cast<Ninja *>(player) != nullptr;
+                if (desired_role_ru == "Маньяк")     return dynamic_cast<Maniac *>(player) != nullptr;
                 return false;
             };
 
@@ -202,19 +234,29 @@ int main() {
     auto h = host.run();
     h.get();
 
-    // Итог: покажем, кто был мафией (по исходным ролям)
-    std::vector<int> mafia_ids;
-    for (auto &[id, role] : gs.original_roles) if (role == "Мафия") mafia_ids.push_back(id);
-    if (!mafia_ids.empty()) {
-        std::cout << "\nМафия была: ";
-        for (size_t i = 0; i < mafia_ids.size(); ++i) {
+    auto dump_role = [&](const std::string &role_ru, const std::string &label) {
+        std::vector<int> ids;
+        for (auto &[id, role] : gs.original_roles) if (role == role_ru) ids.push_back(id);
+        if (ids.empty()) return;
+        std::cout << label << ": ";
+        for (size_t i = 0; i < ids.size(); ++i) {
             if (i) std::cout << ", ";
-            std::cout << mafia_ids[i];
+            std::cout << ids[i];
         }
         std::cout << "\n";
-        log.log_final("Мафия: " + ([&](){
-            std::string s; for (size_t i=0;i<mafia_ids.size();++i){ if(i) s+=","; s+=std::to_string(mafia_ids[i]); } return s; })());
-    }
+        std::string line = label + ": ";
+        for (size_t i = 0; i < ids.size(); ++i) {
+            if (i) line += ",";
+            line += std::to_string(ids[i]);
+        }
+        log.log_final(line);
+    };
+
+    dump_role("Мафия", "Мафия");
+    dump_role("Бык", "Бык");
+    dump_role("Ниндзя", "Ниндзя");
+    dump_role("Маньяк", "Маньяк");
+
     log.log_final("Игра завершена");
     std::cout << "Игра завершена\n";
     return 0;

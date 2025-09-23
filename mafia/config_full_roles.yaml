@@ -1,0 +1,19 @@
+players: 10
+k: 4
+human: true
+announce: open
+
+debug: true
+debug_role: Commissioner
+
+roles:
+  - Mafia
+  - Mafia
+  - Commissioner
+  - Doctor
+  - Witness
+  - Bull
+  - Ninja
+  - Maniac
+  - Civilian
+  - Civilian
