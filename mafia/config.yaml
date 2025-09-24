@@ -1,6 +1,6 @@
-players: 12
-# debug: true
-# debug_role: maniac
+players: 10
+debug: true
+debug_role: doctor
 announce: open
 
 mafia: 1
@@ -8,6 +8,6 @@ bull: 1
 commissioner: 1
 doctor: 1
 maniac: 1
-civilians: 5
+civilians: 3
 witness: 1
 ninja: 1

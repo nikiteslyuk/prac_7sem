@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "role_traits.hpp"
+
 class Logger {
     std::filesystem::path log_dir;
 
@@ -21,6 +23,5 @@ public:
     void start_night(int day);
     void log_night_action(int day, const std::string &description);
     void log_final(const std::string &line);
-    void log_game_set(const std::map<int, std::string> &roles);
+    void log_game_set(const std::map<int, RoleKind> &roles);
 };
-

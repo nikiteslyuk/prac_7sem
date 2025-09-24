@@ -7,6 +7,7 @@
 #include <optional>
 #include <algorithm>
 #include "smart_ptr.hpp"
+#include "role_traits.hpp"
 
 struct PlayerBase;
 
@@ -16,7 +17,7 @@ struct GameState {
     int human_id = -1;
     std::map<int, smart_ptr<PlayerBase>> alive;
     // исходные роли всех игроков (включая выбывших)
-    std::map<int, std::string> original_roles;
+    std::map<int, RoleKind> original_roles;
 
     // конфигурация/состояние
     int round = 1;
@@ -64,12 +65,12 @@ struct GameState {
         return v;
     }
 
-    // подсчёты (по строковым ролям; роли возвращаются из PlayerBase::role())
+    // подсчёты по исходным ролям
     int mafia_count() const {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && (it->second == "Мафия" || it->second == "Ниндзя")) {
+            if (it != original_roles.end() && is_mafia_aligned(it->second)) {
                 ++c;
             }
         }
@@ -80,7 +81,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && it->second == "Маньяк") {
+            if (it != original_roles.end() && is_maniac(it->second)) {
                 ++c;
             }
         }
@@ -91,7 +92,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && it->second != "Мафия" && it->second != "Маньяк") {
+            if (it != original_roles.end() && alignment_for(it->second) == Alignment::Civilian) {
                 ++c;
             }
         }

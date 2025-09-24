@@ -77,10 +77,9 @@ void Logger::log_final(const std::string &line) {
     out << line << '\n';
 }
 
-void Logger::log_game_set(const std::map<int, std::string> &roles) {
+void Logger::log_game_set(const std::map<int, RoleKind> &roles) {
     std::ofstream out(log_dir / "set_game", std::ios::trunc);
     for (const auto &[id, role] : roles) {
-        out << id << ": " << role << '\n';
+        out << id << ": " << role_name(role) << '\n';
     }
 }
-

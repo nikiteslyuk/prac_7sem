@@ -9,6 +9,7 @@
 #include "smart_ptr.hpp"
 #include "logger.hpp"
 #include "roles.hpp"
+#include "role_traits.hpp"
 #include "host.hpp"
 #include "human.hpp"
 #include "game_state.hpp"
@@ -230,13 +231,18 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Небольшие читы для тестирования
     log.log_game_set(gs.original_roles);
     auto h = host.run();
     h.get();
 
-    auto dump_role = [&](const std::string &role_ru, const std::string &label) {
+    auto dump_role = [&](RoleKind role_kind, const std::string &label) {
         std::vector<int> ids;
-        for (auto &[id, role] : gs.original_roles) if (role == role_ru) ids.push_back(id);
+        for (auto &[id, role] : gs.original_roles) {
+            if (role == role_kind) {
+                ids.push_back(id);
+            }
+        }
         if (ids.empty()) return;
         std::cout << label << ": ";
         for (size_t i = 0; i < ids.size(); ++i) {
@@ -252,10 +258,10 @@ int main(int argc, char **argv) {
         log.log_final(line);
     };
 
-    dump_role("Мафия", "Мафия");
-    dump_role("Бык", "Бык");
-    dump_role("Ниндзя", "Ниндзя");
-    dump_role("Маньяк", "Маньяк");
+    dump_role(RoleKind::Mafia, "Мафия");
+    dump_role(RoleKind::Bull, "Бык");
+    dump_role(RoleKind::Ninja, "Ниндзя");
+    dump_role(RoleKind::Maniac, "Маньяк");
 
     log.log_final("Игра завершена");
     std::cout << "Игра завершена\n";

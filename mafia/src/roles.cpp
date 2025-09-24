@@ -22,7 +22,7 @@ Task<> Civilian::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-std::string Civilian::role() const { return "Мирный"; }
+RoleKind Civilian::kind() const { return RoleKind::Civilian; }
 
 void Civilian::set_target(int t) { target = t; }
 
@@ -42,7 +42,7 @@ Task<> Mafia::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-std::string Mafia::role() const { return "Мафия"; }
+RoleKind Mafia::kind() const { return RoleKind::Mafia; }
 
 void Mafia::set_target(int t) { target = t; }
 
@@ -62,7 +62,7 @@ Task<> Bull::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-std::string Bull::role() const { return "Бык"; }
+RoleKind Bull::kind() const { return RoleKind::Bull; }
 
 void Bull::set_target(int t) { target = t; }
 
@@ -111,7 +111,7 @@ Task<> Commissioner::vote(GameState &, Host &, int, Logger &, int) {
     co_return;
 }
 
-std::string Commissioner::role() const { return "Комиссар"; }
+RoleKind Commissioner::kind() const { return RoleKind::Commissioner; }
 
 void Commissioner::set_target(int t) {
     night_decision = NightDecision::None;
@@ -184,7 +184,7 @@ Task<> Doctor::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-std::string Doctor::role() const { return "Доктор"; }
+RoleKind Doctor::kind() const { return RoleKind::Doctor; }
 
 void Doctor::set_target(int t) {
     target = t;
@@ -210,7 +210,7 @@ Task<> Maniac::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-std::string Maniac::role() const { return "Маньяк"; }
+RoleKind Maniac::kind() const { return RoleKind::Maniac; }
 
 void Maniac::set_target(int t) { target = t; }
 
@@ -240,7 +240,7 @@ Task<> Witness::vote(GameState &state, Host &host, int id, Logger &, int) {
     co_return;
 }
 
-std::string Witness::role() const { return "Свидетель"; }
+RoleKind Witness::kind() const { return RoleKind::Witness; }
 
 void Witness::set_target(int t) { observed = t; }
 
@@ -266,7 +266,7 @@ Task<> Ninja::vote(GameState &state, Host &host, int id, Logger &, int) {
     co_return;
 }
 
-std::string Ninja::role() const { return "Ниндзя"; }
+RoleKind Ninja::kind() const { return RoleKind::Ninja; }
 
 void Ninja::set_target(int t) { target = t; }
 

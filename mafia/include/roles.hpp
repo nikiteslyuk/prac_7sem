@@ -12,11 +12,23 @@
 #include "logger.hpp"
 #include "concepts.hpp"
 #include "game_state.hpp"
+#include "role_traits.hpp"
 
 struct Host;
 
 struct PlayerBase {
     virtual ~PlayerBase() = default;
+
+    [[nodiscard]] virtual RoleKind kind() const = 0;
+    [[nodiscard]] virtual Alignment alignment() const { return alignment_for(kind()); }
+    [[nodiscard]] virtual bool mafia_aligned() const { return is_mafia_aligned(kind()); }
+    [[nodiscard]] virtual bool maniac_aligned() const { return is_maniac(kind()); }
+    [[nodiscard]] virtual bool is_commissioner() const { return ::is_commissioner(kind()); }
+    [[nodiscard]] virtual bool is_doctor() const { return ::is_doctor(kind()); }
+    [[nodiscard]] virtual bool is_bull() const { return ::is_bull(kind()); }
+    [[nodiscard]] virtual bool is_witness() const { return ::is_witness(kind()); }
+    [[nodiscard]] virtual bool is_ninja() const { return ::is_ninja(kind()); }
+    [[nodiscard]] virtual bool prevents_maniac_kill() const { return ::prevents_maniac_kill(kind()); }
 
     virtual Task<> act(GameState &state,
                        Host &host,
@@ -38,8 +50,7 @@ struct PlayerBase {
 
     virtual int night_shot_target() const { return -1; }
 
-protected:
-    virtual std::string role() const = 0;
+    [[nodiscard]] virtual std::string role() const { return role_name(kind()); }
 
     friend struct Host;
     friend struct GameState;
@@ -77,7 +88,7 @@ struct Civilian : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -100,7 +111,7 @@ struct Mafia : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -123,7 +134,7 @@ struct Bull : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -153,7 +164,7 @@ struct Commissioner : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     void set_kill(int t) override;
@@ -182,7 +193,7 @@ struct Doctor : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -205,7 +216,7 @@ struct Maniac : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -229,7 +240,7 @@ struct Witness : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;
@@ -252,7 +263,7 @@ struct Ninja : PlayerBase {
                 Logger &log,
                 int round) override;
 
-    std::string role() const override;
+    RoleKind kind() const override;
 
     void set_target(int t) override;
     int get_target() const override;

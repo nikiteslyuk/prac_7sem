@@ -6,12 +6,13 @@
 #include <algorithm>
 #include <optional>
 #include <vector>
+#include <ranges>
 
 Host::Host(GameState &g, Logger &l) : gs(g), log(l) {
     gs.original_roles.clear();
     for (auto &[id, player] : gs.alive) {
         if (player.get()) {
-            gs.original_roles[id] = player->role();
+            gs.original_roles[id] = player->kind();
         }
     }
 }
@@ -42,14 +43,7 @@ Host::Alignment Host::alignment_of(int id) const {
     if (it == gs.original_roles.end()) {
         return Alignment::Unknown;
     }
-    const std::string &role = it->second;
-    if (role == "Мафия" || role == "Ниндзя" || role == "Бык") {
-        return Alignment::Mafia;
-    }
-    if (role == "Маньяк") {
-        return Alignment::Maniac;
-    }
-    return Alignment::Civilian;
+    return alignment_for(it->second);
 }
 
 std::string Host::alignment_to_string(Alignment a) const {
@@ -66,7 +60,7 @@ std::string Host::role_name_for(int id) const {
     if (it == gs.original_roles.end()) {
         return "";
     }
-    return it->second;
+    return role_name(it->second);
 }
 
 void Host::day_discussion(const std::vector<int> &order) {
@@ -116,7 +110,7 @@ void Host::resolve_day() {
         } else {
             std::string accusation_role = "мафией";
             auto it_role = gs.original_roles.find(to);
-            if (it_role != gs.original_roles.end() && it_role->second == "Маньяк") {
+            if (it_role != gs.original_roles.end() && is_maniac(it_role->second)) {
                 accusation_role = "маньяком";
             }
             line = "Игрок " + std::to_string(from) + " считает, что игрок " + std::to_string(to) + " является " + accusation_role + ".";
@@ -131,6 +125,7 @@ void Host::resolve_day() {
     gs.day_votes.clear();
 }
 
+// запихнуть все проверки в объекты
 void Host::resolve_night() {
     announce("\n=== Ночь — Раунд " + std::to_string(gs.round) + " ===");
 
@@ -144,26 +139,29 @@ void Host::resolve_night() {
     int commissioner_shot_target = -1;
     Commissioner *commissioner_ptr = nullptr;
 
-    bool human_is_doctor = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->role() == "Доктор";
-    bool human_is_commissioner = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->role() == "Комиссар";
+    bool human_is_doctor = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->is_doctor();
+    bool human_is_commissioner = gs.human_enabled && gs.alive.count(gs.human_id) && gs.alive.at(gs.human_id)->is_commissioner();
 
     bool doctor_saved_someone = false;
     int doctor_saved_player = -1;
     std::string doctor_saved_by;
     bool doctor_died = false;
 
+    // свернуть (полиморфизм)
     for (auto &[id, p] : gs.alive) {
-        const std::string role = p->role();
-        if (role == "Мафия" || role == "Ниндзя") {
+        if (p->mafia_aligned()) {
             if (mafia_target == -1) {
                 mafia_target = p->get_target();
             }
-        } else if (role == "Маньяк") {
+        }
+        if (p->maniac_aligned()) {
             maniac_target = p->get_target();
             maniac_id = id;
-        } else if (role == "Доктор") {
+        }
+        if (p->is_doctor()) {
             doctor_ids.push_back(id);
-        } else if (role == "Комиссар") {
+        }
+        if (p->is_commissioner()) {
             commissioner_inspect_target = p->night_action_target();
             commissioner_shot_target = p->night_shot_target();
             commissioner_ptr = dynamic_cast<Commissioner *>(p.get());
@@ -320,7 +318,7 @@ void Host::resolve_night() {
         register_witness_attempt("комиссар", commissioner_shot_target);
     }
 
-    auto kill = [&](int vid, const std::string &by) {
+    auto kill = [&](int vid, Alignment source, const std::string &by) {
         if (vid == -1) return;
         if (vid == doctor_target && doctor_target != -1) {
             if (!doctor_saved_someone) {
@@ -334,9 +332,9 @@ void Host::resolve_night() {
             }
             return;
         }
-        if (by == "маньяка") {
+        if (source == Alignment::Maniac) {
             auto it_orig = gs.original_roles.find(vid);
-            if (it_orig != gs.original_roles.end() && it_orig->second == "Бык") {
+            if (it_orig != gs.original_roles.end() && prevents_maniac_kill(it_orig->second)) {
                 std::string msg = "Маньяк не смог убить быка (игрок " + std::to_string(vid) + ").";
                 log.log_night_action(gs.round, msg);
                 announce(msg);
@@ -351,16 +349,16 @@ void Host::resolve_night() {
             announce("Игрок " + std::to_string(vid) + " погиб от " + by);
             log.log_night_action(gs.round, "Игрок " + std::to_string(vid) + " погиб от " + by + '.');
             auto it_orig = gs.original_roles.find(vid);
-            if (it_orig != gs.original_roles.end() && it_orig->second == "Доктор") {
+            if (it_orig != gs.original_roles.end() && is_doctor(it_orig->second)) {
                 doctor_died = true;
             }
             gs.alive.erase(vid);
         }
     };
 
-    kill(mafia_target, "мафии");
-    kill(maniac_target, "маньяка");
-    kill(commissioner_shot_target, "комиссара");
+    kill(mafia_target, Alignment::Mafia, "мафии");
+    kill(maniac_target, Alignment::Maniac, "маньяка");
+    kill(commissioner_shot_target, Alignment::Civilian, "комиссара");
 
     if (!doctor_ids.empty()) {
         std::string result = "Доктор, результат лечения: ";
@@ -431,21 +429,15 @@ Task<> Host::run() {
         // === День: каждый игрок голосует ===
         gs.day_votes.clear();
         {
-            std::vector<int> ids_local;
-            ids_local.reserve(gs.alive.size());
-            for (auto &[id, _] : gs.alive) ids_local.push_back(id);
-
-            for (int id : ids_local) {
-                auto it = gs.alive.find(id);
-                if (it == gs.alive.end()) continue;
-                auto &p = it->second;
-                if (gs.human_enabled && id == gs.human_id) {
-                    co_await human_loop(gs, *this, id, log, /*day_phase=*/true);
-                } else {
-                    co_await p->vote(gs, *this, id, log, gs.round);
-                    gs.set_vote(id, p->get_target());
+                for (int id : gs.alive | std::views::keys) {
+                    auto &p = gs.alive.at(id);
+                    if (gs.human_enabled && id == gs.human_id) {
+                        co_await human_loop(gs, *this, id, log, /*day_phase=*/true);
+                    } else {
+                        co_await p->vote(gs, *this, id, log, gs.round);
+                        gs.set_vote(id, p->get_target());
+                    }
                 }
-            }
         }
         resolve_day();
         if (game_over()) co_return;
@@ -460,19 +452,13 @@ Task<> Host::run() {
         gs.mafia_final_target = -1;
         gs.mafia_choice_random = false;
         {
-            std::vector<int> ids_local;
-            ids_local.reserve(gs.alive.size());
-            for (auto &[id, _] : gs.alive) ids_local.push_back(id);
-
             bool human_is_mafia = false;
             if (gs.human_enabled && gs.alive.count(gs.human_id)) {
                 human_is_mafia = (alignment_of(gs.human_id) == Alignment::Mafia);
             }
 
-            for (int id : ids_local) {
-                auto it = gs.alive.find(id);
-                if (it == gs.alive.end()) continue;
-                auto &p = it->second;
+            for (int id : gs.alive | std::views::keys) {
+                auto &p = gs.alive.at(id);
                 if (gs.human_enabled && id == gs.human_id) continue;
                 co_await p->act(gs, *this, id, log, gs.round, /*mafiaPhase=*/true);
             }
@@ -576,10 +562,8 @@ Task<> Host::run() {
                 }
             }
 
-            for (int id : ids_local) {
-                auto it = gs.alive.find(id);
-                if (it == gs.alive.end()) continue;
-                auto &p = it->second;
+            for (int id : gs.alive | std::views::keys) {
+                auto &p = gs.alive.at(id);
                 if (alignment_of(id) == Alignment::Mafia) continue;
                 if (gs.human_enabled && id == gs.human_id) continue;
                 co_await p->act(gs, *this, id, log, gs.round, /*mafiaPhase=*/false);
