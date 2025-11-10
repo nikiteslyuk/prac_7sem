@@ -1014,7 +1014,6 @@ CMakeFiles/mafia.dir/src/roles.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__filesystem/u8path.h \
-  /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/role_traits.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/concepts.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/game_state.hpp \
   /Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/mafia/include/host.hpp

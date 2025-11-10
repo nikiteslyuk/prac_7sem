@@ -1,0 +1,60 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{geometry}
+\geometry{top=20mm,bottom=20mm,left=20mm,right=20mm}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\pagestyle{fancy}
+
+\fancyhead{} % очищаем
+\fancyfoot{} % очищаем
+\fancyhead[R]{Теслюк Никита Сергеевич} % правый верхний
+\fancyfoot[C]{}
+
+
+\begin{document}
+\begin{center}
+    \huge
+    Постановка задачи поиска оптимального расписания вычислений с использованием алгоритма имитации отжига
+\end{center}
+
+\subsection*{Неформальная постановка задачи}
+Дано $N$ независимых работ. Для каждой работы задано время ее выполнения. Необходимо построить расписание выполнения работ на $M$ процессорах без прерываний. Требуется найти такое расписание выполнения работ, при котором суммарное время ожидания достигает минимального значения --- критерий $K2$
+\subsection*{Формальная постановка задачи}
+\noindent{Дано:}
+\begin{itemize}
+    \item Множество работ $J = \{j_1, j_2, \ldots, j_i, \ldots, j_N\}.$ Для работ определено время их выполнения: для работы $j_i$ время ее выполнения $t^{duration}_i$;
+    \item Множество процессоров $P = \{p_1, p_2, \ldots, p_k, \ldots,  p_M\}$.
+\end{itemize}
+
+\noindent{Требуется:} 
+\begin{itemize}
+    \item Построить расписание вычислений $S = \{s_1, s_2, \ldots, s_i, \ldots, s_N\}$ без прерываний, которое описывает выполнение каждой работы $j_i \in J$ на процессоре $p_k \in P$, время начала выполнения этой работы и время ее завершения, то есть  $s_i = \{p_k, t^{start}_i, 
+    t^{end}_i\}$, где:  
+    \begin{itemize}[label=\scalebox{0.5}{$\blacksquare$}]
+        \item $p_k$ --- процессор для выполнения работы $j_i$;
+        \item $t^{start}_i$ --- время начала выполнения работы $j_i$;
+        \item $t^{end}_i = t^{start}_i + t^{duration}_i$ --- время окончания выполнения работы $j_i$.
+    \end{itemize}
+\end{itemize}
+
+\noindent{Ограничения:} 
+\begin{itemize}
+    \item Каждый процессор $p_j\in P$ в любой момент времени может выполнять не более одной работы;
+    \item Процессору не требуется время на переключение между работами;
+    \item Во время выполнения работ процессором, не возникает прерываний;
+    \item Время выполнения $t^{duration}_i\in T$ фиксированно;
+    \item Каждый элеиент множества $S$ должен содержать $t_i^{start} < t_i^{end}$, также каждая задача выполняется только на одном процессоре и только один раз.
+\end{itemize}
+
+\noindent{Минимизируемый критерий:}
+\begin{itemize}
+    \item Требуется найти такое расписание выполнения работ, при котором суммарное время ожидания $T_{wait} = \sum^{N}_{i=1}t^{end}_i$ достигает минимального значения: $T_{wait} \to min$.
+\end{itemize}
+\end{document}

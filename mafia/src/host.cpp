@@ -11,9 +11,20 @@
 Host::Host(GameState &g, Logger &l) : gs(g), log(l) {
     gs.original_roles.clear();
     for (auto &[id, player] : gs.alive) {
-        if (player.get()) {
-            gs.original_roles[id] = player->kind();
-        }
+        if (!player.get()) continue;
+        RoleInfo info;
+        info.name = player->role();
+        info.alignment = player->alignment();
+        info.mafia_aligned = player->mafia_aligned();
+        info.maniac = player->maniac_aligned();
+        info.commissioner = player->is_commissioner();
+        info.doctor = player->is_doctor();
+        info.bull = player->is_bull();
+        info.witness = player->is_witness();
+        info.ninja = player->is_ninja();
+        info.prevents_maniac_kill = player->prevents_maniac_kill();
+        info.mafia_team_visible = (info.name == "Мафия" || info.name == "Ниндзя");
+        gs.original_roles[id] = std::move(info);
     }
 }
 
@@ -43,7 +54,7 @@ Host::Alignment Host::alignment_of(int id) const {
     if (it == gs.original_roles.end()) {
         return Alignment::Unknown;
     }
-    return alignment_for(it->second);
+    return it->second.alignment;
 }
 
 std::string Host::alignment_to_string(Alignment a) const {
@@ -60,7 +71,7 @@ std::string Host::role_name_for(int id) const {
     if (it == gs.original_roles.end()) {
         return "";
     }
-    return role_name(it->second);
+    return it->second.name;
 }
 
 void Host::day_discussion(const std::vector<int> &order) {
@@ -110,7 +121,7 @@ void Host::resolve_day() {
         } else {
             std::string accusation_role = "мафией";
             auto it_role = gs.original_roles.find(to);
-            if (it_role != gs.original_roles.end() && is_maniac(it_role->second)) {
+            if (it_role != gs.original_roles.end() && it_role->second.maniac) {
                 accusation_role = "маньяком";
             }
             line = "Игрок " + std::to_string(from) + " считает, что игрок " + std::to_string(to) + " является " + accusation_role + ".";
@@ -334,7 +345,7 @@ void Host::resolve_night() {
         }
         if (source == Alignment::Maniac) {
             auto it_orig = gs.original_roles.find(vid);
-            if (it_orig != gs.original_roles.end() && prevents_maniac_kill(it_orig->second)) {
+            if (it_orig != gs.original_roles.end() && it_orig->second.prevents_maniac_kill) {
                 std::string msg = "Маньяк не смог убить быка (игрок " + std::to_string(vid) + ").";
                 log.log_night_action(gs.round, msg);
                 announce(msg);
@@ -349,7 +360,7 @@ void Host::resolve_night() {
             announce("Игрок " + std::to_string(vid) + " погиб от " + by);
             log.log_night_action(gs.round, "Игрок " + std::to_string(vid) + " погиб от " + by + '.');
             auto it_orig = gs.original_roles.find(vid);
-            if (it_orig != gs.original_roles.end() && is_doctor(it_orig->second)) {
+            if (it_orig != gs.original_roles.end() && it_orig->second.doctor) {
                 doctor_died = true;
             }
             gs.alive.erase(vid);

@@ -5,7 +5,6 @@
 #include "logger.hpp"
 #include "game_state.hpp"
 #include "task.hpp"
-#include "role_traits.hpp"
 
 // Оркестратор игры: День/Ночь, сводка действий, условия завершения.
 struct Host {

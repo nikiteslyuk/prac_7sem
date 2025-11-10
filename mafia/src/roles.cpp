@@ -22,7 +22,7 @@ Task<> Civilian::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-RoleKind Civilian::kind() const { return RoleKind::Civilian; }
+std::string Civilian::role() const { return "Мирный"; }
 
 void Civilian::set_target(int t) { target = t; }
 
@@ -42,31 +42,19 @@ Task<> Mafia::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-RoleKind Mafia::kind() const { return RoleKind::Mafia; }
+Alignment Mafia::alignment() const { return Alignment::Mafia; }
+
+std::string Mafia::role() const { return "Мафия"; }
 
 void Mafia::set_target(int t) { target = t; }
 
 int Mafia::get_target() const { return target; }
 
-Task<> Bull::act(GameState &, Host &host, int id, Logger &, int, bool mafiaPhase) {
-    if (mafiaPhase) {
-        auto ids = host.mafia_targets_for(id);
-        target = ids.empty() ? -1 : choose_random(ids);
-    }
-    co_return;
-}
+std::string Bull::role() const { return "Бык"; }
 
-Task<> Bull::vote(GameState &state, Host &, int id, Logger &, int) {
-    auto ids = state.ids_excluding(id);
-    target = ids.empty() ? -1 : choose_random(ids);
-    co_return;
-}
+bool Bull::prevents_maniac_kill() const { return true; }
 
-RoleKind Bull::kind() const { return RoleKind::Bull; }
-
-void Bull::set_target(int t) { target = t; }
-
-int Bull::get_target() const { return target; }
+bool Bull::is_bull() const { return true; }
 
 Task<> Commissioner::act(GameState &state, Host &host, int id, Logger &, int, bool mafiaPhase) {
     if (!mafiaPhase) {
@@ -111,7 +99,9 @@ Task<> Commissioner::vote(GameState &, Host &, int, Logger &, int) {
     co_return;
 }
 
-RoleKind Commissioner::kind() const { return RoleKind::Commissioner; }
+std::string Commissioner::role() const { return "Комиссар"; }
+
+bool Commissioner::is_commissioner() const { return true; }
 
 void Commissioner::set_target(int t) {
     night_decision = NightDecision::None;
@@ -184,7 +174,9 @@ Task<> Doctor::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-RoleKind Doctor::kind() const { return RoleKind::Doctor; }
+std::string Doctor::role() const { return "Доктор"; }
+
+bool Doctor::is_doctor() const { return true; }
 
 void Doctor::set_target(int t) {
     target = t;
@@ -210,7 +202,9 @@ Task<> Maniac::vote(GameState &state, Host &, int id, Logger &, int) {
     co_return;
 }
 
-RoleKind Maniac::kind() const { return RoleKind::Maniac; }
+Alignment Maniac::alignment() const { return Alignment::Maniac; }
+
+std::string Maniac::role() const { return "Маньяк"; }
 
 void Maniac::set_target(int t) { target = t; }
 
@@ -240,34 +234,14 @@ Task<> Witness::vote(GameState &state, Host &host, int id, Logger &, int) {
     co_return;
 }
 
-RoleKind Witness::kind() const { return RoleKind::Witness; }
+std::string Witness::role() const { return "Свидетель"; }
+
+bool Witness::is_witness() const { return true; }
 
 void Witness::set_target(int t) { observed = t; }
 
 int Witness::get_target() const { return vote_choice; }
 
-Task<> Ninja::act(GameState &state, Host &host, int id, Logger &, int, bool mafiaPhase) {
-    if (!mafiaPhase) {
-        co_return;
-    }
-    std::vector<int> ids;
-    for (auto &[pid, _] : state.alive) {
-        if (pid == id) continue;
-        if (host.alignment_of(pid) != Host::Alignment::Mafia) ids.push_back(pid);
-    }
-    target = ids.empty() ? -1 : choose_random(ids);
-    co_return;
-}
+std::string Ninja::role() const { return "Ниндзя"; }
 
-Task<> Ninja::vote(GameState &state, Host &host, int id, Logger &, int) {
-    (void)host;
-    auto ids = state.ids_excluding(id);
-    target = ids.empty() ? -1 : choose_random(ids);
-    co_return;
-}
-
-RoleKind Ninja::kind() const { return RoleKind::Ninja; }
-
-void Ninja::set_target(int t) { target = t; }
-
-int Ninja::get_target() const { return target; }
+bool Ninja::is_ninja() const { return true; }

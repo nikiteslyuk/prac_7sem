@@ -1,0 +1,5 @@
+/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/ИмитацияОтжига/solution/build/CMakeFiles/sa_core.dir
+/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/ИмитацияОтжига/solution/build/CMakeFiles/annealing_solver.dir
+/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/ИмитацияОтжига/solution/build/CMakeFiles/task_generator.dir
+/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/ИмитацияОтжига/solution/build/CMakeFiles/edit_cache.dir
+/Users/nikiteslyuk/Documents/ВУЗ/Учеба/7_Семестр/Практикум/ИмитацияОтжига/solution/build/CMakeFiles/rebuild_cache.dir

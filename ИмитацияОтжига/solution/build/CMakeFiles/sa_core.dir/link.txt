@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsa_core.a CMakeFiles/sa_core.dir/src/sa_classes.cpp.o
+/usr/bin/ranlib libsa_core.a

@@ -1,4 +1,5 @@
 #include "logger.hpp"
+#include "game_state.hpp"
 
 #include <fstream>
 
@@ -77,9 +78,9 @@ void Logger::log_final(const std::string &line) {
     out << line << '\n';
 }
 
-void Logger::log_game_set(const std::map<int, RoleKind> &roles) {
+void Logger::log_game_set(const std::map<int, RoleInfo> &roles) {
     std::ofstream out(log_dir / "set_game", std::ios::trunc);
     for (const auto &[id, role] : roles) {
-        out << id << ": " << role_name(role) << '\n';
+        out << id << ": " << role.name << '\n';
     }
 }

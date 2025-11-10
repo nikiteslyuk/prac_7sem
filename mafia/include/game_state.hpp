@@ -7,9 +7,30 @@
 #include <optional>
 #include <algorithm>
 #include "smart_ptr.hpp"
-#include "role_traits.hpp"
+#include <utility>
 
 struct PlayerBase;
+
+enum class Alignment {
+    Unknown,
+    Civilian,
+    Mafia,
+    Maniac
+};
+
+struct RoleInfo {
+    std::string name;
+    Alignment alignment = Alignment::Unknown;
+    bool mafia_aligned = false;
+    bool maniac = false;
+    bool commissioner = false;
+    bool doctor = false;
+    bool bull = false;
+    bool witness = false;
+    bool ninja = false;
+    bool prevents_maniac_kill = false;
+    bool mafia_team_visible = false; // учитывается в подсчёте живых мафий
+};
 
 // Общая «точка истины» игры: живые игроки, RNG, настройки и утилиты.
 struct GameState {
@@ -17,7 +38,7 @@ struct GameState {
     int human_id = -1;
     std::map<int, smart_ptr<PlayerBase>> alive;
     // исходные роли всех игроков (включая выбывших)
-    std::map<int, RoleKind> original_roles;
+    std::map<int, RoleInfo> original_roles;
 
     // конфигурация/состояние
     int round = 1;
@@ -70,7 +91,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && is_mafia_aligned(it->second)) {
+            if (it != original_roles.end() && it->second.mafia_team_visible) {
                 ++c;
             }
         }
@@ -81,7 +102,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && is_maniac(it->second)) {
+            if (it != original_roles.end() && it->second.maniac) {
                 ++c;
             }
         }
@@ -92,7 +113,7 @@ struct GameState {
         int c = 0;
         for (const auto &[id, _] : alive) {
             auto it = original_roles.find(id);
-            if (it != original_roles.end() && alignment_for(it->second) == Alignment::Civilian) {
+            if (it != original_roles.end() && it->second.alignment == Alignment::Civilian) {
                 ++c;
             }
         }
