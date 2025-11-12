@@ -34,6 +34,8 @@ public:
     std::unique_ptr<ISolution> clone() const override;
     unsigned processor_count() const { return proc_num_; }
     const std::vector<unsigned>& durations() const { return works_len_; }
+    const std::vector<unsigned>& assignment() const { return assignment_; }
+    void set_assignment(const std::vector<unsigned>& assignment);
 private:
     unsigned proc_num_;
     std::vector<unsigned> works_len_;
@@ -57,22 +59,22 @@ private:
 class ITemperatureDecrease {
 public:
     virtual ~ITemperatureDecrease() = default;
-    virtual double decrease(double current_temp, unsigned iter_num) const = 0;
+    virtual double decrease(double initial_temp, unsigned iter_num) const = 0;
 };
 
 class BoltzmannTemperatureDecrease : public ITemperatureDecrease {
 public:
-    double decrease(double current_temp, unsigned iter_num) const override;
+    double decrease(double initial_temp, unsigned iter_num) const override;
 };
 
 class CauchyTemperatureDecrease : public ITemperatureDecrease {
 public:
-    double decrease(double current_temp, unsigned iter_num) const override;
+    double decrease(double initial_temp, unsigned iter_num) const override;
 };
 
 class LogTemperatureDecrease : public ITemperatureDecrease {
 public:
-    double decrease(double current_temp, unsigned iter_num) const override;
+    double decrease(double initial_temp, unsigned iter_num) const override;
 };
 
 struct AnnealingParams {

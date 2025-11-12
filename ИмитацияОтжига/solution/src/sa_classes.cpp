@@ -52,6 +52,13 @@ std::unique_ptr<ISolution> ScheduleSolution::clone() const {
     return std::make_unique<ScheduleSolution>(*this);
 }
 
+void ScheduleSolution::set_assignment(const std::vector<unsigned>& assignment) {
+    if (assignment.size() != assignment_.size()) {
+        throw std::invalid_argument("assignment size mismatch");
+    }
+    assignment_ = assignment;
+}
+
 Mutator::Mutator(unsigned max_mutations) : max_mutations_(max_mutations) {
     if (max_mutations_ == 0) {
         throw std::invalid_argument("max_mutations must be > 0");
@@ -65,16 +72,36 @@ void Mutator::mutate(ISolution* sol) const {
     }
 }
 
-double BoltzmannTemperatureDecrease::decrease(double current_temp, unsigned iter_num) const {
-    return current_temp / std::log(1.0 + iter_num + 1e-9);
+double BoltzmannTemperatureDecrease::decrease(double initial_temp, unsigned iter_num) const {
+    if (iter_num == 0) {
+        return initial_temp;
+    }
+    double denom = std::log(2.0 + static_cast<double>(iter_num));
+    if (denom <= 0.0) {
+        return initial_temp;
+    }
+    return initial_temp / denom;
 }
 
-double CauchyTemperatureDecrease::decrease(double current_temp, unsigned iter_num) const {
-    return current_temp / (1.0 + iter_num);
+double CauchyTemperatureDecrease::decrease(double initial_temp, unsigned iter_num) const {
+    if (iter_num == 0) {
+        return initial_temp;
+    }
+    double denom = 1.0 + static_cast<double>(iter_num);
+    return initial_temp / denom;
 }
 
-double LogTemperatureDecrease::decrease(double current_temp, unsigned iter_num) const {
-    return current_temp * std::log(1.0 + iter_num) / (1.0 + iter_num);
+double LogTemperatureDecrease::decrease(double initial_temp, unsigned iter_num) const {
+    if (iter_num == 0) {
+        return initial_temp;
+    }
+    double shifted_iter = static_cast<double>(iter_num) + 2.0;
+    double numerator = std::log(shifted_iter);
+    double denom = shifted_iter;
+    if (denom <= 0.0 || numerator <= 0.0) {
+        return initial_temp;
+    }
+    return initial_temp * (numerator / denom);
 }
 
 MainCycle::MainCycle(const ISolution& start_solution,
@@ -95,13 +122,17 @@ std::unique_ptr<ISolution> MainCycle::process() const {
     auto best = start_solution_.clone();
     double current_score = current->score();
     double best_score = current_score;
-    double temperature = params_.start_temp;
     unsigned iterations_without_improvement = 0;
-    unsigned iteration = 1;
+    unsigned long long iteration = 0;
 
     while (iterations_without_improvement < params_.patience) {
         bool improved = false;
         for (unsigned i = 0; i < params_.batch_size; ++i) {
+            double temperature = temp_decrease_.decrease(params_.start_temp, iteration);
+            if (temperature < 1e-9) {
+                temperature = 1e-9;
+            }
+            ++iteration;
             auto candidate = current->clone();
             mutator_.mutate(candidate.get());
             double candidate_score = candidate->score();
@@ -129,10 +160,6 @@ std::unique_ptr<ISolution> MainCycle::process() const {
             iterations_without_improvement = 0;
         } else {
             iterations_without_improvement += 1;
-        }
-        temperature = temp_decrease_.decrease(temperature, iteration++);
-        if (temperature < 1e-9) {
-            temperature = 1e-9;
         }
     }
 
