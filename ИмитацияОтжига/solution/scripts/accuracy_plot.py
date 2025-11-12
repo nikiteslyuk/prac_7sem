@@ -5,20 +5,18 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def build_plot(csv_path: Path, output_path: Path) -> None:
+def build_accuracy_plot(csv_path: Path, output_path: Path) -> None:
     df = pd.read_csv(csv_path)
     if df.empty:
-        raise SystemExit("Line CSV is empty")
+        raise SystemExit("Accuracy CSV is empty")
     df = df.sort_values("workers")
-    plt.figure(figsize=(7, 4))
     workers = df["workers"].tolist()
-    times = df["elapsed_seconds"]
-    if "runs" in df.columns:
-        times = times * df["runs"]
-    plt.plot(workers, times, marker="o")
+    scores = df["best_score"]
+    plt.figure(figsize=(7, 4))
+    plt.plot(workers, scores, marker="o")
     plt.xlabel("Number of worker processes")
-    plt.ylabel("Execution time, s")
-    plt.title("Execution time vs processes")
+    plt.ylabel("Best score (lower is better)")
+    plt.title("Solution quality vs processes")
     plt.grid(True, alpha=0.3)
     plt.xticks(workers, workers)
     plt.tight_layout()
@@ -27,10 +25,10 @@ def build_plot(csv_path: Path, output_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--line-csv", required=True)
+    parser.add_argument("--csv", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    build_plot(Path(args.line_csv), Path(args.output))
+    build_accuracy_plot(Path(args.csv), Path(args.output))
 
 
 if __name__ == "__main__":

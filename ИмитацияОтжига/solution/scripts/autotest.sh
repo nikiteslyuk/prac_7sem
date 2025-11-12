@@ -16,9 +16,10 @@ fi
 
 mkdir -p "$BUILD_DIR" "$DATA_DIR" "$ARTIFACTS_DIR"
 
-echo "[1/6] Building generator and solver"
-cmake -S "$ROOT_DIR" -B "$BUILD_DIR" >/dev/null
-cmake --build "$BUILD_DIR" --target annealing_solver task_generator >/dev/null
+echo "[1/6] Building generator and solver (g++)"
+mkdir -p "$BUILD_DIR"
+g++ -O2 -std=c++20 -pthread "$ROOT_DIR/src/sa_classes.cpp" "$ROOT_DIR/src/annealing_main.cpp" -o "$BUILD_DIR/annealing_solver"
+g++ -O2 -std=c++20 "$ROOT_DIR/src/generator_main.cpp" -o "$BUILD_DIR/task_generator"
 
 echo "[2/6] Generating datasets"
 rm -f "$DATA_DIR"/*.csv 2>/dev/null || true
@@ -40,7 +41,7 @@ for workers in 1 2 4 6 8 10; do
     --input "$LINE_PATH" \
     --label "$LINE_DATASET" \
     --workers "$workers" \
-    --runs 1 \
+    --runs 10 \
     --seed "$seed" \
     --output "$LINE_CSV" \
     >/dev/null
@@ -76,7 +77,7 @@ for entry in "${ordered_datasets[@]}"; do
     --input "$dataset" \
     --label "$label" \
     --workers 1 \
-    --runs 1 \
+    --runs 5 \
     --seed "$seed" \
     --output "$HEATMAP_CSV" \
     >/dev/null
