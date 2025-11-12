@@ -1,5 +1,6 @@
 #include "sa_classes.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <filesystem>
@@ -10,11 +11,38 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+bool send_all(int fd, const void* data, size_t bytes) {
+    const char* ptr = static_cast<const char*>(data);
+    size_t sent = 0;
+    while (sent < bytes) {
+        ssize_t res = ::send(fd, ptr + sent, bytes - sent, 0);
+        if (res <= 0) {
+            return false;
+        }
+        sent += static_cast<size_t>(res);
+    }
+    return true;
+}
+
+bool recv_all(int fd, void* data, size_t bytes) {
+    char* ptr = static_cast<char*>(data);
+    size_t received = 0;
+    while (received < bytes) {
+        ssize_t res = ::recv(fd, ptr + received, bytes - received, 0);
+        if (res <= 0) {
+            return false;
+        }
+        received += static_cast<size_t>(res);
+    }
+    return true;
+}
 
 struct InstanceData {
     unsigned processors{};
@@ -22,20 +50,20 @@ struct InstanceData {
     std::string label;
 };
 
-struct SolverOptions {
+struct SolverOptions { // параметры запуска основного solver'a
     std::string input_path;
     std::string output_csv;
     std::string label;
     unsigned workers = 1;
-    unsigned max_mutations = 3;
-    unsigned batch = 2000;
+    unsigned max_mutations = 20;
+    unsigned batch = 5000;
     unsigned patience = 100;
     double start_temp = 1e12;
     uint64_t seed = static_cast<uint64_t>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     unsigned runs = 1;
 };
 
-SolverOptions parse_args(int argc, char** argv) {
+SolverOptions parse_args(int argc, char** argv) { // разбираем CLI флаги
     SolverOptions opts;
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
@@ -84,7 +112,7 @@ SolverOptions parse_args(int argc, char** argv) {
     return opts;
 }
 
-InstanceData read_instance(const std::string& path, const std::string& label_override) {
+InstanceData read_instance(const std::string& path, const std::string& label_override) { // читаем CSV датасет
     std::ifstream in(path);
     if (!in.is_open()) {
         throw std::runtime_error("Failed to open input file: " + path);
@@ -109,7 +137,7 @@ InstanceData read_instance(const std::string& path, const std::string& label_ove
     return data;
 }
 
-std::string make_socket_path() {
+std::string make_socket_path() { // создаём уникальный путь для UNIX-сокета
     auto base = std::filesystem::temp_directory_path();
     auto pid = static_cast<long>(::getpid());
     auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -118,21 +146,7 @@ std::string make_socket_path() {
     return (base / oss.str()).string();
 }
 
-uint64_t receive_score(int client_fd) {
-    uint64_t score = 0;
-    size_t received = 0;
-    while (received < sizeof(score)) {
-        auto ret = ::recv(client_fd, reinterpret_cast<char*>(&score) + received,
-                          sizeof(score) - received, 0);
-        if (ret <= 0) {
-            throw std::runtime_error("Failed to receive score from worker");
-        }
-        received += static_cast<size_t>(ret);
-    }
-    return score;
-}
-
-void write_results_row(const SolverOptions& opts,
+void write_results_row(const SolverOptions& opts, // дописываем строку в CSV отчёта
                        const InstanceData& data,
                        uint64_t best_score,
                        double avg_score,
@@ -159,7 +173,7 @@ void write_results_row(const SolverOptions& opts,
         << elapsed_seconds << '\n';
 }
 
-void worker_process(const std::string& socket_path,
+void worker_process(const std::string& socket_path, // тело дочернего процесса
                     const ScheduleSolution& start_solution,
                     const Mutator& mutator,
                     const ITemperatureDecrease& cooling,
@@ -180,9 +194,27 @@ void worker_process(const std::string& socket_path,
     }
     auto result = MainCycle(start_solution, mutator, cooling, params).process();
     uint64_t score = static_cast<uint64_t>(result->score());
-    if (::send(client_fd, &score, sizeof(score), 0) < 0) {
+    auto concrete = dynamic_cast<ScheduleSolution*>(result.get());
+    if (!concrete) {
+        std::perror("cast");
+        _exit(1);
+    }
+    const auto& assignment = concrete->assignment();
+    uint32_t size = static_cast<uint32_t>(assignment.size());
+    if (!send_all(client_fd, &score, sizeof(score)) ||
+        !send_all(client_fd, &size, sizeof(size))) { // отправляем родителю score и размер расписания
         std::perror("send");
         _exit(1);
+    }
+    if (size > 0) {
+        std::vector<uint32_t> buffer(size);
+        for (size_t i = 0; i < size; ++i) {
+            buffer[i] = assignment[i];
+        }
+        if (!send_all(client_fd, buffer.data(), buffer.size() * sizeof(uint32_t))) { // передаём само лучшее назначение
+            std::perror("send");
+            _exit(1);
+        }
     }
     ::close(client_fd);
     _exit(0);
@@ -190,8 +222,8 @@ void worker_process(const std::string& socket_path,
 
 int main(int argc, char** argv) {
     try {
-        auto options = parse_args(argc, argv);
-        auto instance = read_instance(options.input_path, options.label);
+        auto options = parse_args(argc, argv); // читаем параметры запуска
+        auto instance = read_instance(options.input_path, options.label); // подгружаем датасет
         ScheduleSolution start_solution(instance.processors, instance.tasks);
         Mutator mutator(options.max_mutations);
         BoltzmannTemperatureDecrease cooling;
@@ -200,8 +232,12 @@ int main(int argc, char** argv) {
         double total_time = 0.0;
         double score_sum = 0.0;
         uint64_t global_best = std::numeric_limits<uint64_t>::max();
+        std::vector<unsigned> best_assignment_overall = start_solution.assignment();
+        unsigned runs_without_improvement = 0;
+        unsigned executed_runs = 0;
 
         for (unsigned run = 0; run < options.runs; ++run) {
+            ++executed_runs;
             auto socket_path = make_socket_path();
             int server_fd = ::socket(AF_UNIX, SOCK_STREAM, 0);
             if (server_fd < 0) {
@@ -220,7 +256,7 @@ int main(int argc, char** argv) {
 
             auto start_time = std::chrono::steady_clock::now();
 
-            for (unsigned worker_id = 0; worker_id < options.workers; ++worker_id) {
+            for (unsigned worker_id = 0; worker_id < options.workers; ++worker_id) { // форкаем процессы-воркеры и передаём им обновлённое глобальное решение через start_solution
                 pid_t pid = ::fork();
                 if (pid == 0) {
                     uint64_t worker_seed = options.seed + run * 7919 + worker_id * 9973 + static_cast<uint64_t>(::getpid());
@@ -232,15 +268,37 @@ int main(int argc, char** argv) {
 
             uint64_t sum_scores = 0;
             uint64_t best_score = std::numeric_limits<uint64_t>::max();
+            std::vector<unsigned> best_assignment_run;
+            bool has_best_assignment = false;
 
-            for (unsigned i = 0; i < options.workers; ++i) {
+            for (unsigned i = 0; i < options.workers; ++i) { // собираем лучшие решения и синхронизируемся через сокет
                 int client_fd = ::accept(server_fd, nullptr, nullptr);
                 if (client_fd < 0) {
                     throw std::runtime_error("accept() failed");
                 }
-                uint64_t score = receive_score(client_fd);
+                uint64_t score = 0;
+                uint32_t assignment_size = 0;
+                if (!recv_all(client_fd, &score, sizeof(score)) ||
+                    !recv_all(client_fd, &assignment_size, sizeof(assignment_size))) {
+                    throw std::runtime_error("Failed to receive worker result");
+                }
+                std::vector<unsigned> assignment_data;
+                if (assignment_size > 0) {
+                    std::vector<uint32_t> buffer(assignment_size);
+                    if (!recv_all(client_fd, buffer.data(), buffer.size() * sizeof(uint32_t))) {
+                        throw std::runtime_error("Failed to receive assignment");
+                    }
+                    assignment_data.reserve(assignment_size);
+                    for (auto value : buffer) {
+                        assignment_data.push_back(static_cast<unsigned>(value));
+                    }
+                }
                 sum_scores += score;
-                best_score = std::min(best_score, score);
+                if (score < best_score) {
+                    best_score = score;
+                    best_assignment_run = std::move(assignment_data);
+                    has_best_assignment = true;
+                }
                 ::close(client_fd);
             }
 
@@ -252,23 +310,43 @@ int main(int argc, char** argv) {
             double elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
             total_time += elapsed_seconds;
             score_sum += static_cast<double>(best_score);
-            global_best = std::min(global_best, best_score);
+            bool improved = false;
+            if (has_best_assignment && best_score < global_best) {
+                global_best = best_score;
+                best_assignment_overall = best_assignment_run;
+                start_solution.set_assignment(best_assignment_overall);
+                improved = true;
+            }
+            if (improved) {
+                runs_without_improvement = 0;
+            } else {
+                ++runs_without_improvement;
+            }
+            std::cout << "Global best after run " << (run + 1) << ": " << global_best << std::endl;
+            if (runs_without_improvement >= 10) { // критерий останова
+                std::cout << "No improvement for 10 runs, stopping." << std::endl;
+                ::close(server_fd);
+                ::unlink(socket_path.c_str());
+                break;
+            }
 
             ::close(server_fd);
             ::unlink(socket_path.c_str());
         }
 
-        double avg_time = total_time / options.runs;
-        double avg_score = score_sum / options.runs;
+        double avg_time = total_time / std::max(1u, executed_runs);
+        double avg_score = score_sum / std::max(1u, executed_runs);
 
         std::cout << "Dataset: " << options.label << "\n"
                   << "Workers: " << options.workers << "\n"
-                  << "Runs: " << options.runs << "\n"
+                  << "Runs: " << std::max(1u, executed_runs) << "\n"
                   << "Best score: " << global_best << "\n"
                   << "Average score: " << avg_score << "\n"
                   << "Average time (s): " << avg_time << "\n";
 
-        write_results_row(options, instance, global_best, avg_score, avg_time);
+        SolverOptions final_options = options;
+        final_options.runs = std::max(1u, executed_runs);
+        write_results_row(final_options, instance, global_best, avg_score, avg_time);
     } catch (const std::exception& ex) {
         std::cerr << "Solver error: " << ex.what() << "\n";
         return 1;
