@@ -76,7 +76,7 @@ for entry in "${ordered_datasets[@]}"; do
   "$BUILD_DIR/annealing_solver" \
     --input "$dataset" \
     --label "$label" \
-    --workers 1 \
+    --workers "$proc_num" \
     --runs 5 \
     --seed "$seed" \
     --output "$HEATMAP_CSV" \

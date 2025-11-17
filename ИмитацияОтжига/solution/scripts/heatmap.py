@@ -15,10 +15,10 @@ def build_heatmap(csv_path: Path, output_path: Path) -> None:
     df["total_seconds"] = df["elapsed_seconds"] * runs
 
     pivot = (
-        df.groupby(["processors", "tasks"])
-          .agg(total_seconds=("total_seconds", "sum"))
-          .reset_index()
-          .pivot(index="processors", columns="tasks", values="total_seconds")
+        df.groupby(["workers", "tasks"])
+        .agg(total_seconds=("total_seconds", "sum"))
+        .reset_index()
+        .pivot(index="workers", columns="tasks", values="total_seconds")
     )
     pivot = pivot.sort_index(ascending=False)
     pivot = pivot[pivot.columns.sort_values()]
@@ -32,7 +32,7 @@ def build_heatmap(csv_path: Path, output_path: Path) -> None:
     )
     plt.title("Total execution time, s")
     plt.xlabel("Number of tasks")
-    plt.ylabel("Number of processors")
+    plt.ylabel("Number of worker processes")
     plt.tight_layout()
     plt.savefig(output_path)
 
