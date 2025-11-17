@@ -80,7 +80,7 @@ public:
 struct AnnealingParams {
     double start_temp;
     unsigned batch_size;
-    unsigned patience;
+    unsigned patience; // number of batches to run
 };
 
 class MainCycle {

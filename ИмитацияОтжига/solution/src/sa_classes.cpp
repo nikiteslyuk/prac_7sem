@@ -25,25 +25,33 @@ ScheduleSolution::ScheduleSolution(unsigned proc_num, const std::vector<unsigned
 }
 
 double ScheduleSolution::score() const {
-    std::vector<unsigned long long> completion(proc_num_, 0);
-    unsigned long long total_completion = 0;
+    // Группируем задачи по процессорам, чтобы стоимость расчёта не зависела от того,
+    // как часто один и тот же процессор встречается в исходном порядке задач.
+    std::vector<std::vector<unsigned>> by_proc(proc_num_);
     for (size_t task = 0; task < works_len_.size(); ++task) {
-        auto proc = assignment_[task];
-        completion[proc] += works_len_[task];
-        total_completion += completion[proc];
+        by_proc[assignment_[task]].push_back(works_len_[task]);
+    }
+    unsigned long long total_completion = 0;
+    for (auto& queue : by_proc) {
+        unsigned long long proc_time = 0;
+        for (auto duration : queue) {
+            proc_time += duration;
+            total_completion += proc_time;
+        }
     }
     return static_cast<double>(total_completion);
 }
 
 void ScheduleSolution::mutate() {
-    if (works_len_.empty()) {
+    if (works_len_.empty() || proc_num_ <= 1) {
         return;
     }
     size_t work_idx = RandomProvider::uniform(0, works_len_.size() - 1);
     unsigned current_proc = assignment_[work_idx];
-    unsigned new_proc = current_proc;
-    while (new_proc == current_proc) {
-        new_proc = static_cast<unsigned>(RandomProvider::uniform(0, proc_num_ - 1));
+    // pick a different processor without unbounded retries
+    unsigned new_proc = static_cast<unsigned>(RandomProvider::uniform(0, proc_num_ - 2));
+    if (new_proc >= current_proc) {
+        new_proc += 1;
     }
     assignment_[work_idx] = new_proc;
 }

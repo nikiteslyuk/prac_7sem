@@ -20,14 +20,11 @@ counter=0
 for dataset in "$DATA_DIR"/dataset_P*_T*.csv; do
   echo "Running dataset: $dataset"
   base="$(basename "$dataset" .csv)"
-  proc_part="${base#dataset_P}"
-  proc="${proc_part%%_T*}"
-  workers=$((10#$proc))
   seed=$((300000 + counter))
   "$BUILD_DIR/annealing_solver" \
     --input "$dataset" \
     --label "$base" \
-    --workers "$workers" \
+    --workers 1 \
     --runs 5 \
     --seed "$seed" \
     --output "$CSV_PATH" \

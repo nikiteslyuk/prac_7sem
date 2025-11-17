@@ -13,4 +13,4 @@ if [[ ! -f "$DATASET" ]]; then
   "$BIN_DIR/task_generator" --output-dir "$ROOT_DIR/generated_inputs" >/dev/null
 fi
 
-"$BIN_DIR/annealing_solver" --input "$DATASET" --label demo --workers 4  --runs 10
+"$BIN_DIR/annealing_solver" --input "$DATASET" --label demo --workers 4  --runs 1000
